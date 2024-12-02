@@ -7,26 +7,42 @@
 #include "cxy.h"
 #include <wex.h>
 #include <inputbox.h>
-#include <plot2d.h>
 #include "flower.h"
 #include "cVase.h"
 #include "cRecipeGUI.h"
 
 cRecipeGUI::cRecipeGUI()
-    : fm(wex::maker::make()),
-      myPlot(wex::maker::make<wex::plot::plot>(fm)),
-      myPlotTrace(myPlot.AddStaticTrace())
+    : fm(wex::maker::make())
 {
     fm.move({50, 50, 1000, 500});
     fm.text("Recipe");
-    myPlot.move({30, 300, 1200, 600});
-    myPlotTrace.color(0x0000FF);
 
     menus();
     registerEventHandlers();
 
+    init();
+
     fm.show();
     fm.run();
+}
+
+void cRecipeGUI::init()
+{
+    if (!myVase.Add("Source"))
+        return;
+    auto* f = myVase.getSelected();
+    f->setLocationTopLeft(300, 20);
+    f->setName("Start");
+    if (!myVase.Add("Sink"))
+        return;
+    f = myVase.getSelected();
+    f->setLocationTopLeft(100, 400);
+    f->setName("Failed");
+    if (!myVase.Add("Sink"))
+        return;
+    f = myVase.getSelected();
+    f->setLocationTopLeft(500, 400);
+    f->setName("Success");
 }
 
 void cRecipeGUI::menus()
@@ -57,24 +73,17 @@ void cRecipeGUI::menus()
         });
     mb.append("File", *myFileMenu);
 
-    mySimMenu = new wex::menu(fm);
-    mySimMenu->append(
+    myModeMenu = new wex::menu(fm);
+    myModeMenu->append(
+        "Design",
+        [&](const std::string &title) {
+        });
+    myModeMenu->append(
         "Run",
-        [&](const std::string &title)
-        {
-            simulate();
+        [&](const std::string &title) {
+
         });
-    mySimMenu->append(
-        "Time",
-        [&](const std::string &title)
-        {
-            wex::inputbox ib(fm);
-            ib.text("Simulation parameters");
-            ib.add("Time", std::to_string(myVase.getSimTime()));
-            ib.showModal();
-            myVase.setSimTime(atoi(ib.value("Time").c_str()));
-        });
-    mb.append("Simulate", *mySimMenu);
+    mb.append("Mode", *myModeMenu);
 }
 
 void cRecipeGUI::registerEventHandlers()
@@ -155,13 +164,6 @@ void cRecipeGUI::onRightClick()
                  myVase.Delete();
                  fm.update();
              });
-    m.append("Plot",
-             [&](const std::string &title)
-             {
-                 myVase.readPlot();
-                 myPlotTrace.set(myVase.getPlot());
-                 fm.update();
-             });
 
     m.popup(ms.x, ms.y);
     return;
@@ -181,12 +183,6 @@ void cRecipeGUI::rename()
 
 void cRecipeGUI::draw(wex::shapes &S)
 {
-    if (!myDisplayReport.empty())
-    {
-        S.textHeight(20);
-        S.text(myDisplayReport,
-               {10, 10, 600, 25});
-    }
 
     S.textHeight(12);
     for (raven::sim::gui::cFlower *flower : myVase)
@@ -206,9 +202,9 @@ void cRecipeGUI::draw(wex::shapes &S)
             cxy entryPort;
             int xep, yep;
             flower->locationExitPort1(xep, yep);
-            entryPort.x = dstFlower->getLocationX();
-            entryPort.y = dstFlower->getLocationY() + 25;
-            drawArrow(S,cxy(xep,yep),entryPort);
+            entryPort.x = dstFlower->getLocationX() + 25;
+            entryPort.y = dstFlower->getLocationY();
+            drawArrow(S, cxy(xep, yep), entryPort);
         }
         dstFlower = flower->getDestination2();
         if (dstFlower)
@@ -217,19 +213,19 @@ void cRecipeGUI::draw(wex::shapes &S)
             cxy entryPort;
             int xep, yep;
             flower->locationExitPort2(xep, yep);
-            entryPort.x = dstFlower->getLocationX();
-            entryPort.y = dstFlower->getLocationY() + 25;
-            drawArrow(S,cxy(xep, yep), entryPort);
+            entryPort.x = dstFlower->getLocationX() + 25;
+            entryPort.y = dstFlower->getLocationY();
+            drawArrow(S, cxy(xep, yep), entryPort);
         }
     }
 }
 
 void cRecipeGUI::drawArrow(
-        wex::shapes &S,
-        const cxy &exit,
-        const cxy &entry)
+    wex::shapes &S,
+    const cxy &exit,
+    const cxy &entry)
 {
-    const int nWidth = 10;     // width (in pixels) of the full base of the arrowhead
+    const int nWidth = 10; // width (in pixels) of the full base of the arrowhead
 
     cxy arrow[5];
     cxy vecLine;
@@ -241,20 +237,19 @@ void cRecipeGUI::drawArrow(
 
     // build line vector in arrow head
     vecLine = exit.vect(entry);
-    vecLine.zoom( nWidth / sqrt(exit.dist2(entry)));
+    vecLine.zoom(nWidth / sqrt(exit.dist2(entry)));
 
     // build vector between arrow tips - normal to the line
-    baseLine.x = - vecLine.y;
+    baseLine.x = -vecLine.y;
     baseLine.y = vecLine.x;
 
     arrow[1] = arrow[0] - vecLine;
     arrow[2] = arrow[1] + baseLine;
     arrow[3] = arrow[1] - baseLine;
 
-    S.line( arrow[4], arrow[0] );
-    S.line( arrow[0], arrow[2] );
-    S.line( arrow[0], arrow[3] );
-
+    S.line(arrow[4], arrow[0]);
+    S.line(arrow[0], arrow[2]);
+    S.line(arrow[0], arrow[3]);
 }
 
 void cRecipeGUI::ConstructFlower()
@@ -262,21 +257,10 @@ void cRecipeGUI::ConstructFlower()
     static wex::sMouse ms;
     ms = fm.getMouseStatus();
     // std::cout << "mouse at " << ms.x << " " << ms.y << "\n";
-    wex::menu m(fm);
-    for (auto flower : myFactory.dictionary())
-    {
-        m.append(flower.myName,
-                 [&](const std::string &title)
-                 {
-                     if (!myVase.Add(title))
-                         return;
-                     // std::cout << "flower at " << ms.x << " " << ms.y << "\n";
-                     myVase.getSelected()->setLocationTopLeft(ms.x, ms.y);
-                     fm.update();
-                 });
-    }
-
-    m.popup(ms.x, ms.y);
+    if (!myVase.Add("Decision"))
+        return;
+    myVase.getSelected()->setLocationTopLeft(ms.x, ms.y);
+    fm.update();
 }
 
 void cRecipeGUI::SelectFlower()
@@ -287,9 +271,6 @@ void cRecipeGUI::SelectFlower()
         return;
 
     myVase.setSelected(flower);
-
-    myPlot.text(flower->getName());
-    myPlotTrace.clear();
 
     if (mySimReport.find("Final Report") == -1)
     {
@@ -323,28 +304,6 @@ void cRecipeGUI::config()
         prm.second.value = atof(
             ib.value(prm.second.name).c_str());
     }
-}
-
-void cRecipeGUI::simulate()
-{
-    myVase.DBWrite();
-    myVase.Write("vase.dot");
-    fm.text("Simulating...");
-    fm.update();
-    std::string errs;
-    wex::free::startProcess(
-        "simEngine.exe", errs, true);
-    fm.text("Vase");
-    std::ifstream ifs("tern.log");
-    std::stringstream buffer;
-    buffer << ifs.rdbuf();
-    mySimReport = buffer.str();
-    int p = mySimReport.find("Final Report");
-    if (p != -1)
-        mySimReport = mySimReport.substr(p);
-    wex::msgbox(mySimReport.c_str());
-
-    fm.update();
 }
 
 main()

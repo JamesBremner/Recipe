@@ -6,9 +6,7 @@ public:
 private:
     wex::gui &fm;
     wex::menu *myFileMenu;
-    wex::menu *mySimMenu;
-    wex::plot::plot &myPlot;
-    wex::plot::trace &myPlotTrace;
+    wex::menu *myModeMenu;
 
     raven::sim::gui::cFlowerFactory myFactory;
 
@@ -19,6 +17,8 @@ private:
 
     void menus();
     void registerEventHandlers();
+    void init();
+    
     void onRightClick();
     void rename();
 

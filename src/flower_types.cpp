@@ -23,12 +23,6 @@
 #include "flower_types.h"
 
 
-#ifdef WXWIDGETS
-#include <wx/propgrid/propgrid.h>
-#include "ProcessFlowSimGUI.h"
-#endif // WXWIDGETS
-
-
 namespace raven
 {
 namespace sim

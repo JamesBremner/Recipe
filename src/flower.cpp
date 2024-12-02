@@ -68,6 +68,12 @@ namespace raven
                     lastIndex = id;
             }
 
+            void cFlower::locationExitPort1(int &x, int &y)
+            {
+                x = myX + 25;
+                y = myY + 50;
+            }
+
             /**
 
               Move flower top left to new location
@@ -652,6 +658,8 @@ namespace raven
                     return new cQueue();
                 case 11:
                     return new cPipeBend();
+                case 12:
+                    return new cDecision();
 
                 default:
                     // TODO:        return ConstructModelFlower( flower_type_index );
@@ -663,6 +671,16 @@ namespace raven
                 myTypeName = "PipeBend";
                 setName();
                 // myWidth = 5;
+            }
+            cDecision::cDecision()
+            {
+                myTypeName = "Decision";
+                myName = "Decision";
+            }
+            void cDecision::locationExitPort1(int &x, int &y)
+            {
+                x = myX;
+                y = myY + 25;
             }
 /**  Draw pipebend -  a small cirle
  */

@@ -81,6 +81,7 @@ namespace raven
                 Insert("Busy");
                 Insert("Queue");
                 Insert("PipeBend");
+                Insert("Decision");
 
                 // model types
 
@@ -209,7 +210,6 @@ namespace raven
                 virtual void Paint(wxPaintDC &dc);
                 void Set(wxPaintDC &dc);
                 void PaintPipe(wxPaintDC &dc);
-                void PaintArrow(wxPaintDC &dc, wxPoint exit_port, wxPoint entry_port);
                 void DrawText(wxPaintDC &dc);
                 void PaintResizeHandles(wxPaintDC &dc);
                 virtual void Configure(wxWindow *parent);
@@ -221,20 +221,18 @@ namespace raven
                     p.x = myX;
                     p.y = myY;
                 }
-                virtual wxPoint getEntryPort();
                 virtual void AppendProperties(wxPropertyGrid *pg);
-                virtual void getPortLocation(int &x, int &y, const cFlower &other);
 
 #endif
-                virtual void locationExitPort1( int &x, int& y)
+                virtual void getEntryPort(int &x, int& y)
                 {
-                    x = myX+50;
-                    y = myY+20;
+                    x = myX+25;
+                    y = myY;
                 }
+                virtual void locationExitPort1( int &x, int& y);
+
                 virtual void locationExitPort2( int &x, int& y)
                 {
-                    x = myX+50;
-                    y = myY+40;
                 }
                 void setSize(int w, int h)
                 {
@@ -346,6 +344,18 @@ namespace raven
                 void getPortLocation(int &x, int &y, const cFlower &other);
                 void setLocation(wxPoint p);
 #endif
+            };
+            class cDecision : public cFlower
+            {
+                public:
+                cDecision();
+                virtual void locationExitPort1( int &x, int& y);
+
+                virtual void locationExitPort2( int &x, int& y)
+                {
+                    x = myX+50;
+                    y = myY+25;
+                }
             };
 
         }
