@@ -407,8 +407,8 @@ namespace raven
             void cFlower::Write(FILE *fp)
             {
                 std::string name_no_spaces;
-                for( int p = 0; p < myName.length(); p++ )
-                    if( myName[p] == ' ')
+                for (int p = 0; p < myName.length(); p++)
+                    if (myName[p] == ' ')
                         name_no_spaces += '_';
                     else
                         name_no_spaces += myName[p];
@@ -473,8 +473,8 @@ namespace raven
 
                 auto no_spaces = line.substr(0, line.find(" "));
                 std::string name;
-                for( int p = 0; p < no_spaces.length(); p++ )
-                    if( no_spaces[p] == '_')
+                for (int p = 0; p < no_spaces.length(); p++)
+                    if (no_spaces[p] == '_')
                         name += ' ';
                     else
                         name += no_spaces[p];
@@ -661,6 +661,8 @@ namespace raven
             {
                 myTypeName = "Decision";
                 myName = "Decision";
+                myWidth = 200;
+                myHeight = 50;
             }
             void cDecision::getEntryPort(int &x, int &y)
             {
@@ -677,6 +679,7 @@ namespace raven
                 x = myX + 200;
                 y = myY + 25;
             }
+
 
 /**  Draw pipebend -  a small cirle
  */

@@ -242,7 +242,7 @@ namespace raven
                 }
                 virtual void setLocationTopLeft(int x, int y);
                 virtual void setLocationCenter(int x, int y);
-                bool IsUnder(int x, int y);
+                virtual bool IsUnder(int x, int y);
                 int getIndex()
                 {
                     return myIndex;
