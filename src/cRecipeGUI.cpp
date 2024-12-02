@@ -269,16 +269,6 @@ void cRecipeGUI::SelectFlower()
 
     myVase.setSelected(flower);
 
-    if (mySimReport.find("Final Report") == -1)
-    {
-        myDisplayReport.clear();
-        return;
-    }
-    myDisplayReport = mySimReport.substr(mySimReport.find("Final Report"));
-    myDisplayReport =
-        myDisplayReport.substr(
-            myDisplayReport.find(
-                myVase.getSelected()->getName()));
 }
 
 void cRecipeGUI::config()

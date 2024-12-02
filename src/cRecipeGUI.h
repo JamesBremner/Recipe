@@ -12,13 +12,13 @@ private:
 
     raven::sim::gui::cVase myVase;
 
-    std::string mySimReport;
-    std::string myDisplayReport;
+    // std::string mySimReport;
+    // std::string myDisplayReport;
 
     void menus();
     void registerEventHandlers();
     void init();
-    
+
     void onRightClick();
     void rename();
 
