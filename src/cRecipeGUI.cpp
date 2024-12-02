@@ -304,13 +304,29 @@ void cRecipeGUI::startRun()
         myVase.setMode(raven::sim::gui::cVase::e_mode::design);
         return;
     }
-    myVase.setSelected(f);
-    fm.update();
-    wex::msgbox(
-        fm,
-        f->getName(),
-        "Decision",
-        MB_YESNO);
+    while (true)
+    {
+        myVase.setSelected(f);
+        fm.update();
+        if( f->getName() == "Failed" ||
+            f->getName() == "Success" )
+            break;
+        wex::msgbox mb(
+            fm,
+            f->getName(),
+            "Decision",
+            MB_YESNO);
+        switch (mb.myReturn)
+        {
+        case IDYES:
+            f = f->getDestination2();
+            break;
+        case IDNO:
+            f = f->getDestination();
+            break;
+        }
+        
+    }
 }
 namespace raven
 {

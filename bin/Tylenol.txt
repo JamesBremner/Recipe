@@ -1,0 +1,12 @@
+digraph V {
+ ->  // start_idx=0 end_idx=3
+ ->  // start_idx=4 end_idx=1
+ ->  // start_idx=4 end_idx=2
+ ->  // start_idx=3 end_idx=1
+ ->  // start_idx=3 end_idx=4
+Success [shape=box,pos="448,334"] // [ vase_type='Sink' vase_idx=2 ]
+Start [shape=box,pos="300,20"] // [ vase_type='Source' vase_idx=0 p_Mean 1.000000 p_Steady 0.000000 p_Volume 1.000000 ]
+Is_temperature_between_20C_and_40C? [shape=box,pos="217,231"] // [ vase_type='Decision' vase_idx=4 ]
+Failed [shape=box,pos="130,337"] // [ vase_type='Sink' vase_idx=1 ]
+Are_you_ready_to_start? [shape=box,pos="217,137"] // [ vase_type='Decision' vase_idx=3 ]
+}
