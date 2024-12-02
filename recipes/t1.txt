@@ -1,0 +1,9 @@
+digraph V {
+ ->  // start_idx=0 end_idx=3
+ ->  // start_idx=3 end_idx=1
+ ->  // start_idx=3 end_idx=2
+Success [shape=box,pos="496,344"] // [ vase_type='Sink' vase_idx=2 ]
+Start [shape=box,pos="332,50"] // [ vase_type='Source' vase_idx=0 p_Mean 1.000000 p_Steady 0.000000 p_Volume 1.000000 ]
+Failed [shape=box,pos="140,353"] // [ vase_type='Sink' vase_idx=1 ]
+Are_you_ready_to_start? [shape=box,pos="257,217"] // [ vase_type='Decision' vase_idx=3 ]
+}

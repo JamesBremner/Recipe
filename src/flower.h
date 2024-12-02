@@ -296,6 +296,11 @@ namespace raven
                 {
                     return myDestination2; ///< Flower connected to exit port
                 }
+                void deleteOutputConnections()
+                {
+                    myDestination = 0;
+                    myDestination2 = 0;
+                }
                 int getOutPortCount()
                 {
                     return myOutputPortCount;

@@ -169,10 +169,16 @@ void cRecipeGUI::onRightClick()
                  config();
                  fm.update();
              });
-    m.append("Delete",
+    m.append("Delete selected",
              [&](const std::string &title)
              {
                  myVase.Delete();
+                 fm.update();
+             });
+    m.append("Delete outputs",
+             [&](const std::string &title)
+             {
+                 myVase.getSelected()->deleteOutputConnections();
                  fm.update();
              });
 

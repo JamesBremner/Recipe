@@ -1,0 +1,18 @@
+digraph V {
+ ->  // start_idx=18 end_idx=1
+ ->  // start_idx=18 end_idx=23
+ ->  // start_idx=0 end_idx=3
+ ->  // start_idx=23 end_idx=1
+ ->  // start_idx=23 end_idx=2
+ ->  // start_idx=4 end_idx=1
+ ->  // start_idx=4 end_idx=18
+ ->  // start_idx=3 end_idx=1
+ ->  // start_idx=3 end_idx=4
+barcode_label_confirms_it_contains_paracetamol_ [shape=box,pos="217,322"] // [ vase_type='Decision' vase_idx=18 ]
+Success [shape=box,pos="445,628"] // [ vase_type='Sink' vase_idx=2 ]
+Start [shape=box,pos="300,20"] // [ vase_type='Source' vase_idx=0 p_Mean 1.000000 p_Steady 0.000000 p_Volume 1.000000 ]
+Paracetamol_weight_exactly_50kg [shape=box,pos="219,410"] // [ vase_type='Decision' vase_idx=23 ]
+Is_temperature_between_20C_and_40C? [shape=box,pos="217,231"] // [ vase_type='Decision' vase_idx=4 ]
+Failed [shape=box,pos="125,633"] // [ vase_type='Sink' vase_idx=1 ]
+Are_you_ready_to_start? [shape=box,pos="217,137"] // [ vase_type='Decision' vase_idx=3 ]
+}
