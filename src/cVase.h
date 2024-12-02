@@ -95,7 +95,7 @@ public:
     bool	AllNamesUnique();
     void	Connect();
     void    Connect2();
-    void	Clear();
+    void	clear();
 
     int     getFlowerCount()
     {

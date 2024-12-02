@@ -51,6 +51,14 @@ void cRecipeGUI::menus()
 
     myFileMenu = new wex::menu(fm);
     myFileMenu->append(
+        "New",
+        [&](const std::string &title)
+        {
+            myVase.clear();
+            init();
+            fm.update();
+        });
+    myFileMenu->append(
         "Open",
         [&](const std::string &title)
         {
@@ -314,8 +322,8 @@ void cRecipeGUI::startRun()
     {
         myVase.setSelected(f);
         fm.update();
-        if( f->getName() == "Failed" ||
-            f->getName() == "Success" )
+        if (f->getName() == "Failed" ||
+            f->getName() == "Success")
             break;
         wex::msgbox mb(
             fm,
@@ -331,7 +339,6 @@ void cRecipeGUI::startRun()
             f = f->getDestination();
             break;
         }
-        
     }
 }
 namespace raven
