@@ -10,45 +10,9 @@
 #include <plot2d.h>
 #include "flower.h"
 #include "cVase.h"
+#include "cRecipeGUI.h"
 
-class cGUI
-{
-public:
-    cGUI();
-
-private:
-    wex::gui &fm;
-    wex::menu *myFileMenu;
-    wex::menu *mySimMenu;
-    wex::plot::plot &myPlot;
-    wex::plot::trace &myPlotTrace;
-
-    raven::sim::gui::cFlowerFactory myFactory;
-
-    raven::sim::gui::cVase myVase;
-
-    std::string mySimReport;
-    std::string myDisplayReport;
-
-    void menus();
-    void registerEventHandlers();
-    void onRightClick();
-    void rename();
-
-    void draw(wex::shapes &S);
-    void drawArrow(
-        wex::shapes &S,
-        const cxy &exit,
-        const cxy &entry);
-
-    void simulate();
-
-    void ConstructFlower();
-    void SelectFlower();
-    void config();
-};
-
-cGUI::cGUI()
+cRecipeGUI::cRecipeGUI()
     : fm(wex::maker::make()),
       myPlot(wex::maker::make<wex::plot::plot>(fm)),
       myPlotTrace(myPlot.AddStaticTrace())
@@ -65,7 +29,7 @@ cGUI::cGUI()
     fm.run();
 }
 
-void cGUI::menus()
+void cRecipeGUI::menus()
 {
     wex::menubar mb(fm);
 
@@ -113,7 +77,7 @@ void cGUI::menus()
     mb.append("Simulate", *mySimMenu);
 }
 
-void cGUI::registerEventHandlers()
+void cRecipeGUI::registerEventHandlers()
 {
     fm.events().draw(
         [&](PAINTSTRUCT &ps)
@@ -150,7 +114,7 @@ void cGUI::registerEventHandlers()
         });
 }
 
-void cGUI::onRightClick()
+void cRecipeGUI::onRightClick()
 {
     auto ms = fm.getMouseStatus();
     auto *clickedflower = myVase.find(ms.x, ms.y);
@@ -203,7 +167,7 @@ void cGUI::onRightClick()
     return;
 }
 
-void cGUI::rename()
+void cRecipeGUI::rename()
 {
     // prompt user to change the name of the selected flower
     auto *selectedflower = myVase.getSelected();
@@ -215,7 +179,7 @@ void cGUI::rename()
     selectedflower->setName(ib.value("Name"));
 }
 
-void cGUI::draw(wex::shapes &S)
+void cRecipeGUI::draw(wex::shapes &S)
 {
     if (!myDisplayReport.empty())
     {
@@ -260,7 +224,7 @@ void cGUI::draw(wex::shapes &S)
     }
 }
 
-void cGUI::drawArrow(
+void cRecipeGUI::drawArrow(
         wex::shapes &S,
         const cxy &exit,
         const cxy &entry)
@@ -293,7 +257,7 @@ void cGUI::drawArrow(
 
 }
 
-void cGUI::ConstructFlower()
+void cRecipeGUI::ConstructFlower()
 {
     static wex::sMouse ms;
     ms = fm.getMouseStatus();
@@ -315,7 +279,7 @@ void cGUI::ConstructFlower()
     m.popup(ms.x, ms.y);
 }
 
-void cGUI::SelectFlower()
+void cRecipeGUI::SelectFlower()
 {
     auto ms = fm.getMouseStatus();
     auto *flower = myVase.find(ms.x, ms.y);
@@ -339,7 +303,7 @@ void cGUI::SelectFlower()
                 myVase.getSelected()->getName()));
 }
 
-void cGUI::config()
+void cRecipeGUI::config()
 {
     wex::inputbox ib(fm);
     ib.text("Configure " +
@@ -361,7 +325,7 @@ void cGUI::config()
     }
 }
 
-void cGUI::simulate()
+void cRecipeGUI::simulate()
 {
     myVase.DBWrite();
     myVase.Write("vase.dot");
@@ -385,6 +349,6 @@ void cGUI::simulate()
 
 main()
 {
-    cGUI theGUI;
+    cRecipeGUI theGUI;
     return 0;
 }

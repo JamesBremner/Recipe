@@ -26,7 +26,7 @@ CCflags = -std=c++17 $(OPT) -D_mingw_ -Dvase
 # sources
 
 OBJ_recipe = \
-	$(ODIR)/vaseGUI.o \
+	$(ODIR)/cRecipeGUI.o \
 	$(ODIR)/cVase.o \
 	$(ODIR)/flower.o \
 	$(ODIR)/flower_types.o \
