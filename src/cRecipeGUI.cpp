@@ -51,6 +51,14 @@ void cRecipeGUI::menus()
 
     myFileMenu = new wex::menu(fm);
     myFileMenu->append(
+        "New",
+        [&](const std::string &title)
+        {
+            myVase.clear();
+            init();
+            fm.update();
+        });
+    myFileMenu->append(
         "Open",
         [&](const std::string &title)
         {
