@@ -297,7 +297,14 @@ void cRecipeGUI::config()
 void cRecipeGUI::startRun()
 {
     myVase.setMode(raven::sim::gui::cVase::e_mode::run);
-    auto *f = myVase.find("Start")->getDestination();
+    auto *f = myVase.find("Start");
+    if( !f )
+    {
+        wex::msgbox("Start missing");
+        myVase.setMode(raven::sim::gui::cVase::e_mode::design);
+        return;
+    }
+    f->getDestination();
     if (!f)
     {
         wex::msgbox("Start not connected to anything");
