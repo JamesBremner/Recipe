@@ -19,15 +19,16 @@
  */
 
 #pragma once
-#ifdef WXWIDGETS
-#include "wx/wx.h"
-class wxPropertyGrid;
-#endif
 #include <string>
 using std::string;
 #include <map>
 #include <vector>
 #include <set>
+
+namespace wex
+{
+    class shapes;
+}
 
 namespace raven
 {
@@ -315,6 +316,7 @@ namespace raven
                 {
                     return myHeight;
                 }
+                virtual void draw ( wex::shapes& S );
 
             protected:
                 string myName;
@@ -349,13 +351,11 @@ namespace raven
             {
                 public:
                 cDecision();
+                virtual void getEntryPort(int &x, int& y);
                 virtual void locationExitPort1( int &x, int& y);
+                virtual void locationExitPort2( int &x, int& y);
 
-                virtual void locationExitPort2( int &x, int& y)
-                {
-                    x = myX+50;
-                    y = myY+25;
-                }
+                virtual void draw ( wex::shapes& S );
             };
 
         }

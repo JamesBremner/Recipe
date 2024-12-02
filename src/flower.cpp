@@ -221,35 +221,6 @@ namespace raven
 
             /**
 
-              Entry port location
-
-            */
-            wxPoint cFlower::getEntryPort()
-            {
-                wxPoint p(myX, myY);
-                if (myHeight < 0)
-                    p.y += myWidth / 2;
-                else
-                    p.y += myHeight / 2;
-                return p;
-            }
-            /**
-
-             Exit port location
-
-             */
-            wxPoint cFlower::getExitPort()
-            {
-                wxPoint p(myX, myY);
-                p.x += myWidth;
-                if (myHeight < 0)
-                    p.y += myWidth / 2;
-                else
-                    p.y += myHeight / 2;
-                return p;
-            }
-            /**
-
               Set device context ready to draw flower
 
               @param[in] dc the device context
@@ -677,11 +648,22 @@ namespace raven
                 myTypeName = "Decision";
                 myName = "Decision";
             }
+            void cDecision::getEntryPort(int &x, int &y)
+            {
+                x = myX + 100;
+                y = myY;
+            }
             void cDecision::locationExitPort1(int &x, int &y)
             {
                 x = myX;
                 y = myY + 25;
             }
+            void cDecision::locationExitPort2(int &x, int &y)
+            {
+                x = myX + 200;
+                y = myY + 25;
+            }
+
 /**  Draw pipebend -  a small cirle
  */
 #ifdef WXWIDGETS

@@ -30,7 +30,7 @@ void cRecipeGUI::init()
 {
     if (!myVase.Add("Source"))
         return;
-    auto* f = myVase.getSelected();
+    auto *f = myVase.getSelected();
     f->setLocationTopLeft(300, 20);
     f->setName("Start");
     if (!myVase.Add("Sink"))
@@ -183,7 +183,6 @@ void cRecipeGUI::rename()
 
 void cRecipeGUI::draw(wex::shapes &S)
 {
-
     S.textHeight(12);
     for (raven::sim::gui::cFlower *flower : myVase)
     {
@@ -191,20 +190,17 @@ void cRecipeGUI::draw(wex::shapes &S)
             S.color(0x0000FF);
         else
             S.color(0);
-        S.rectangle({flower->getLocationX(), flower->getLocationY(), 50, 50});
-        S.text(flower->getName(),
-               {flower->getLocationX() + 10, flower->getLocationY() + 25});
+            
+        flower->draw( S );
 
         auto *dstFlower = flower->getDestination();
         if (dstFlower)
         {
             S.color(0xFF0000);
-            cxy entryPort;
-            int xep, yep;
+            int xep, yep, xdst, ydst;
             flower->locationExitPort1(xep, yep);
-            entryPort.x = dstFlower->getLocationX() + 25;
-            entryPort.y = dstFlower->getLocationY();
-            drawArrow(S, cxy(xep, yep), entryPort);
+            dstFlower->getEntryPort(xdst,ydst);
+            drawArrow(S, cxy(xep, yep), cxy(xdst,ydst));
         }
         dstFlower = flower->getDestination2();
         if (dstFlower)
@@ -304,6 +300,35 @@ void cRecipeGUI::config()
         prm.second.value = atof(
             ib.value(prm.second.name).c_str());
     }
+}
+namespace raven
+{
+    namespace sim
+    {
+        namespace gui {
+
+        void cFlower::draw(wex::shapes &S)
+        {
+            S.rectangle({getLocationX(), getLocationY(), 50, 50});
+            S.text(getName(),
+               {getLocationX() + 10, getLocationY() + 25});
+        }
+
+        void cDecision::draw(wex::shapes &S)
+        {
+            int x = getLocationX();
+            int y = getLocationY();
+            S.rectangle({x, y, 200, 50});
+            S.text(getName(),
+               {x + 30, y + 15});
+            int xp,yp;
+            locationExitPort1( xp, yp);
+            S.text("NO",{xp+3,yp});
+            locationExitPort2( xp, yp);
+            S.text("YES",{xp-20,yp});
+        }
+    }
+}
 }
 
 main()
