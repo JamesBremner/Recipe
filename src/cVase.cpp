@@ -260,7 +260,7 @@ namespace raven
 
                 std::cout << "cVase::Read" << std::endl;
 
-                clear();
+                Clear();
 
                 FILE *fp = fopen(filename.c_str(), "r");
                 if (!fp)
@@ -355,7 +355,7 @@ namespace raven
                  the flower pointers are stored in the vector
                  so we must delete the flowers they point to
             */
-            void cVase::clear()
+            void cVase::Clear()
             {
                 for (cFlower *flower : myVase)
                 {
