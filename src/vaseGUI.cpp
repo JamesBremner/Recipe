@@ -54,7 +54,7 @@ cGUI::cGUI()
       myPlotTrace(myPlot.AddStaticTrace())
 {
     fm.move({50, 50, 1000, 500});
-    fm.text("Vase");
+    fm.text("Recipe");
     myPlot.move({30, 300, 1200, 600});
     myPlotTrace.color(0x0000FF);
 

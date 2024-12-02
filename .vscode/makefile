@@ -1,13 +1,12 @@
 #source file search paths
-VPATH = ./src \
-	./models \
+VPATH = ./src ./models/basic ../raven-set ../../code_ext/sqlite
 
-	# compiler include search paths
+# compiler include search paths
 INCS = \
 	-I./src \
 	-I./src/ext \
 	-I./models \
-	-I./vase/src \
+	-I./models/basic \
 	-I../windex/include \
 	-I../raven-set \
 	-I../../code_ext/boost/boost1_78 
@@ -22,73 +21,33 @@ static_link_flags = -static-libstdc++ -static-libgcc -static
 ODIR = ./.vscode/obj
 
 OPT = -g
-CCflags = -std=c++17 $(OPT) -D_mingw_
+CCflags = -std=c++17 $(OPT) -D_mingw_ -Dvase
 
 # sources
-OBJ_tst1 = \
-	$(ODIR)/tst1.o \
-	$(ODIR)/tern.o \
-	$(ODIR)/cSource.o \
-	$(ODIR)/cDelay.o \
-	$(ODIR)/cSink.o \
-	$(ODIR)/Probability.o \
 
-OBJ_tst2 = \
-	$(ODIR)/tst2.o 
-
-OBJ_tst3 = \
-	$(ODIR)/tst3.o \
-	$(ODIR)/cStoppingMachine.o \
-	$(ODIR)/tern.o \
-	$(ODIR)/terntime.o \
-	$(ODIR)/cSource.o \
-	$(ODIR)/cDelay.o \
-	$(ODIR)/cSink.o \
-	$(ODIR)/Probability.o \
-
-OBJ_stops = \
-	$(ODIR)/stops.o \
-	$(ODIR)/cStoppingMachine.o \
-	$(ODIR)/tern.o \
-	$(ODIR)/terntime.o \
-	$(ODIR)/cSource.o \
-	$(ODIR)/cDelay.o \
-	$(ODIR)/cSink.o \
-	$(ODIR)/Probability.o \
-
-OBJ_queue = \
-	$(ODIR)/queue.o \
-	$(ODIR)/tern.o \
-	$(ODIR)/cSource.o \
-	$(ODIR)/cDelay.o \
-	$(ODIR)/cSink.o \
-	$(ODIR)/Probability.o \
+OBJ_recipe = \
+	$(ODIR)/vaseGUI.o \
+	$(ODIR)/cVase.o \
+	$(ODIR)/flower.o \
+	$(ODIR)/flower_types.o \
+	$(ODIR)/cQuality.o \
+	$(ODIR)/raven_sqlite.o \
+	$(ODIR)/sqlite3.o \
+	$(ODIR)/cxy.o \
 
 ### COMPILE
 
+$(ODIR)/sqlite3.o : 
+	gcc	 -o $@ -c ../../code_ext/sqlite/sqlite3.c
+
 $(ODIR)/%.o: %.cpp  
 	g++  $(CCflags) \
-	-c -o $@ $< $(INCS) -Dtern_console
+	-c -o $@ $< $(INCS) 
 
-unit: $(OBJ_tst1)
+
+recipe: $(OBJ_recipe)
 	g++ $(OPT) \
-	-o bin/tst1.exe $^  \
-	$(static_link_flags) $(LIBS)
-tst2: $(OBJ_tst2)
-	g++ $(OPT) \
-	-o bin/tst2.exe $^  \
-	$(static_link_flags) $(LIBS)
-tst3: $(OBJ_tst3)
-	g++ $(OPT) \
-	-o bin/tst3.exe $^  \
-	$(static_link_flags) $(LIBS)
-stops: $(OBJ_stops)
-	g++ $(OPT) \
-	-o bin/stops.exe $^  \
-	$(static_link_flags) $(LIBS)
-queue: $(OBJ_queue)
-	g++ $(OPT) \
-	-o bin/queue.exe $^  \
+	-o bin/recipe.exe $^  \
 	$(static_link_flags) $(LIBS)
 
 
@@ -96,6 +55,5 @@ queue: $(OBJ_queue)
 clean:
 	del /q .vscode\\obj\\*.o
 
-rebuild_console: clean unit tst2 tst3 stops queue 
-
+rebuild: clean recipe
 
