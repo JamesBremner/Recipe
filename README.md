@@ -13,7 +13,7 @@ The start, success and failure are connected by a network of design boxes  const
 
 Here is a simple recipe example with one decision box
 
-![image](https://github.com/user-attachments/assets/1984249f-fe99-4d07-88c4-de6e108a5fdf)
+![image](https://github.com/user-attachments/assets/f6ddbe9a-aaef-49c1-9fd6-c142706b616a)
 
 The user can opt to run the recipe.
 
