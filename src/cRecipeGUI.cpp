@@ -174,6 +174,7 @@ void cRecipeGUI::rename()
     // prompt user to change the name of the selected flower
     auto *selectedflower = myVase.getSelected();
     wex::inputbox ib(fm);
+    ib.gridWidth(400);
     ib.add("Name", selectedflower->getName());
     ib.showModal();
 
@@ -190,7 +191,7 @@ void cRecipeGUI::draw(wex::shapes &S)
             S.color(0x0000FF);
         else
             S.color(0);
-            
+
         flower->draw( S );
 
         auto *dstFlower = flower->getDestination();

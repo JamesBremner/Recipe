@@ -406,9 +406,16 @@ namespace raven
             */
             void cFlower::Write(FILE *fp)
             {
+                std::string name_no_spaces;
+                for( int p = 0; p < myName.length(); p++ )
+                    if( myName[p] == ' ')
+                        name_no_spaces += '_';
+                    else
+                        name_no_spaces += myName[p];
+
                 fprintf(fp,
                         "%s [shape=%s,pos=\"%d,%d\"] // [ vase_type='%s' vase_idx=%d ",
-                        myName.c_str(),
+                        name_no_spaces.c_str(),
                         myShape.c_str(),
                         myX, myY,
                         myTypeName.c_str(),
@@ -464,7 +471,14 @@ namespace raven
                 int y = atoi(line.substr(p).c_str());
                 setLocationTopLeft(x, y);
 
-                setName(line.substr(0, line.find(" ")));
+                auto no_spaces = line.substr(0, line.find(" "));
+                std::string name;
+                for( int p = 0; p < no_spaces.length(); p++ )
+                    if( no_spaces[p] == '_')
+                        name += ' ';
+                    else
+                        name += no_spaces[p];
+                setName(name);
 
                 p = line.find("vase_idx=");
                 int idx;
