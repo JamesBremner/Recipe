@@ -76,12 +76,15 @@ void cRecipeGUI::menus()
     myModeMenu = new wex::menu(fm);
     myModeMenu->append(
         "Design",
-        [&](const std::string &title) {
+        [&](const std::string &title)
+        {
+            myVase.setMode(raven::sim::gui::cVase::e_mode::design);
         });
     myModeMenu->append(
         "Run",
-        [&](const std::string &title) {
-
+        [&](const std::string &title)
+        {
+            startRun();
         });
     mb.append("Mode", *myModeMenu);
 }
@@ -192,7 +195,7 @@ void cRecipeGUI::draw(wex::shapes &S)
         else
             S.color(0);
 
-        flower->draw( S );
+        flower->draw(S);
 
         auto *dstFlower = flower->getDestination();
         if (dstFlower)
@@ -200,8 +203,8 @@ void cRecipeGUI::draw(wex::shapes &S)
             S.color(0xFF0000);
             int xep, yep, xdst, ydst;
             flower->locationExitPort1(xep, yep);
-            dstFlower->getEntryPort(xdst,ydst);
-            drawArrow(S, cxy(xep, yep), cxy(xdst,ydst));
+            dstFlower->getEntryPort(xdst, ydst);
+            drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
         }
         dstFlower = flower->getDestination2();
         if (dstFlower)
@@ -268,7 +271,6 @@ void cRecipeGUI::SelectFlower()
         return;
 
     myVase.setSelected(flower);
-
 }
 
 void cRecipeGUI::config()
@@ -292,34 +294,53 @@ void cRecipeGUI::config()
             ib.value(prm.second.name).c_str());
     }
 }
+void cRecipeGUI::startRun()
+{
+    myVase.setMode(raven::sim::gui::cVase::e_mode::run);
+    auto *f = myVase.find("Start")->getDestination();
+    if (!f)
+    {
+        wex::msgbox("Start not connected to anything");
+        myVase.setMode(raven::sim::gui::cVase::e_mode::design);
+        return;
+    }
+    myVase.setSelected(f);
+    fm.update();
+    wex::msgbox(
+        fm,
+        f->getName(),
+        "Decision",
+        MB_YESNO);
+}
 namespace raven
 {
     namespace sim
     {
-        namespace gui {
-
-        void cFlower::draw(wex::shapes &S)
+        namespace gui
         {
-            S.rectangle({getLocationX(), getLocationY(), 50, 50});
-            S.text(getName(),
-               {getLocationX() + 10, getLocationY() + 25});
-        }
 
-        void cDecision::draw(wex::shapes &S)
-        {
-            int x = getLocationX();
-            int y = getLocationY();
-            S.rectangle({x, y, 200, 50});
-            S.text(getName(),
-               {x + 30, y + 15});
-            int xp,yp;
-            locationExitPort1( xp, yp);
-            S.text("NO",{xp+3,yp});
-            locationExitPort2( xp, yp);
-            S.text("YES",{xp-20,yp});
+            void cFlower::draw(wex::shapes &S)
+            {
+                S.rectangle({getLocationX(), getLocationY(), 50, 50});
+                S.text(getName(),
+                       {getLocationX() + 10, getLocationY() + 25});
+            }
+
+            void cDecision::draw(wex::shapes &S)
+            {
+                int x = getLocationX();
+                int y = getLocationY();
+                S.rectangle({x, y, 200, 50});
+                S.text(getName(),
+                       {x + 30, y + 15});
+                int xp, yp;
+                locationExitPort1(xp, yp);
+                S.text("NO", {xp + 3, yp});
+                locationExitPort2(xp, yp);
+                S.text("YES", {xp - 20, yp});
+            }
         }
     }
-}
 }
 
 main()

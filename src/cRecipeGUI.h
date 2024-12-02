@@ -12,9 +12,6 @@ private:
 
     raven::sim::gui::cVase myVase;
 
-    // std::string mySimReport;
-    // std::string myDisplayReport;
-
     void menus();
     void registerEventHandlers();
     void init();
@@ -28,7 +25,7 @@ private:
         const cxy &exit,
         const cxy &entry);
 
-    void simulate();
+    void startRun();
 
     void ConstructFlower();
     void SelectFlower();

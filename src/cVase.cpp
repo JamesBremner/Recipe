@@ -43,7 +43,9 @@ namespace raven
             cVase::cVase()
                 : mySimType(task),
                   mySimTime(100),
-                  mySelected(0), my2Selected(0)
+                  mySelected(0),
+                  my2Selected(0),
+                  myMode(e_mode::design)
             {
             }
 

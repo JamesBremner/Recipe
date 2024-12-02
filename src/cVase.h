@@ -47,6 +47,12 @@ public:
         flow
     } mySimType;
 
+    enum e_mode
+    {
+        design,
+        run,
+    } myMode;
+
     cVase();
 
     bool	Add(  const std::string& flower_type_name );
@@ -76,6 +82,11 @@ public:
     cFlower * getSelected2()
     {
         return my2Selected;
+    }
+
+    void setMode( e_mode m )
+    {
+        myMode = m;
     }
 
 
