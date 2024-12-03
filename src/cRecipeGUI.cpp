@@ -211,11 +211,12 @@ void cRecipeGUI::draw(wex::shapes &S)
 
         flower->draw(S);
 
+        // draw connections
+        S.color(0xFF0000);
+        int xep, yep, xdst, ydst;
         auto *dstFlower = flower->getDestination();
         if (dstFlower)
         {
-            S.color(0xFF0000);
-            int xep, yep, xdst, ydst;
             flower->locationExitPort1(xep, yep);
             dstFlower->getEntryPort(xdst, ydst);
             drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
@@ -223,13 +224,9 @@ void cRecipeGUI::draw(wex::shapes &S)
         dstFlower = flower->getDestination2();
         if (dstFlower)
         {
-            S.color(0xFF0000);
-            cxy entryPort;
-            int xep, yep;
             flower->locationExitPort2(xep, yep);
-            entryPort.x = dstFlower->getLocationX() + 25;
-            entryPort.y = dstFlower->getLocationY();
-            drawArrow(S, cxy(xep, yep), entryPort);
+            dstFlower->getEntryPort(xdst, ydst);
+            drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
         }
     }
 }
