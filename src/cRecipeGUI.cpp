@@ -315,7 +315,7 @@ void cRecipeGUI::startRun()
         myVase.setMode(raven::sim::gui::cVase::e_mode::design);
         return;
     }
-    f->getDestination();
+    f = f->getDestination();
     if (!f)
     {
         wex::msgbox("Start not connected to anything");
