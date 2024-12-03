@@ -1,7 +1,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
-#include "tern.h"
+//#include "tern.h"
 #include "cSource.h"
 #include "probability.h"
 

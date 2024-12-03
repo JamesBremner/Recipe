@@ -9,7 +9,6 @@ INCS = \
 	-I./models/basic \
 	-I../windex/include \
 	-I../raven-set \
-	-I../../code_ext/boost/boost1_78 
 
 LIBS = \
 	-lgdiplus -lgdi32 -lcomdlg32 -lstdc++fs -lComctl32 \

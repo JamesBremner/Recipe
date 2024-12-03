@@ -5,7 +5,6 @@
 #include <utility>
 #include <cstdarg>
 #include "raven_sqlite.h"
-#include "tern.h"
 #include "cVase.h"
 #include "cQuality.h"
 

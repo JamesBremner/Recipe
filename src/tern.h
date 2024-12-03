@@ -5,13 +5,6 @@
 #include <map>
 #include <string>
 
-#include <boost/accumulators/accumulators.hpp>
-#include <boost/accumulators/statistics/stats.hpp>
-#include <boost/accumulators/statistics/mean.hpp>
-#include <boost/accumulators/statistics/min.hpp>
-#include <boost/accumulators/statistics/max.hpp>
-#include <boost/accumulators/statistics/variance.hpp>
-
 #include "terntime.h"
 #include "cQuality.h"
 
@@ -426,14 +419,6 @@ extern cTERN theSimulationEngine;
 namespace stats {
 
             // statistics accumulator
-    typedef boost::accumulators::accumulator_set<int, boost::accumulators::stats<
-    boost::accumulators::tag::min,
-    boost::accumulators::tag::max,
-    boost::accumulators::tag::mean,
-    boost::accumulators::tag::variance,
-    boost::accumulators::tag::count> > stats_t;
-
-
 }
 }
 }

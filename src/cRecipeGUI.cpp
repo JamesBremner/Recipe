@@ -164,16 +164,10 @@ void cRecipeGUI::onRightClick()
     // clicked on selected flower
 
     wex::menu m(fm);
-    m.append("Rename",
+    m.append("Edit Question",
              [&](const std::string &title)
              {
                  rename();
-                 fm.update();
-             });
-    m.append("Configure",
-             [&](const std::string &title)
-             {
-                 config();
                  fm.update();
              });
     m.append("Delete selected",
