@@ -19,9 +19,21 @@ Here is a simple recipe example with one decision box
 
 # Recipe Editor
 
-* Add a decision by right clicking on canvas and selecting `decision` from drop down menu
-* Connect output of one event handler to input of second by left clicking on first, then right clicking on second
+* Add a decision by right clicking on empty canvas and selecting `Decision` from drop down menu
+* Add a pipe bend by right clicking on empty canvas and selecting `PipeBend` from drop down menu
+* Move elements by left clicking on element ( source, sink, decision or pipe bend ) and moving mouse with SHIFT key pressed
+* Connect elements with straight lines left clicking on first, then right clicking on second.
+* Use pipe bends to make connections avoid other elements
 
+![image](https://github.com/user-attachments/assets/57b71454-fc88-4326-8ccb-3f734d87feac)
+
+* Edit question in decision with left click, then right clicki, then select `Edit` from pop-up menu
+* Delete decision with left click, then right clicki, then select `Delete selected` from pop-up menu
+* Delete output connections from decision  with left click, then right clicki, then select `Delete connections` from pop-up menu
+* `File | New` replaces current recipe with initial recipe contain only a source and two sinks
+* `File | Open` replaces current recipe with saved recipe in selected file
+* `File | Save` saves current recipe to a selected file
+* `Mode | Run` start the recipe runner
 
 # Recipe Runner
 
