@@ -67,20 +67,7 @@ namespace raven
                          mySimTime);
             }
 
-            void cVase::readPlot()
-            {
-                myPlotData.clear();
-                raven::sqlite::cDB db;
-                db.Open("vase.dat");
-                int rows = db.Query("SELECT data FROM plot WHERE flower = '%s';",
-                                    mySelected->getName().c_str());
-                auto vtokens = ParseSpaceDelimited(db.myResultA[0]);
-                for (auto &t : vtokens)
-                {
-                    myPlotData.push_back(
-                        atof(t.c_str()));
-                }
-            }
+
 
 /**  Select flower under location
 
@@ -279,7 +266,7 @@ namespace raven
                         p = line.find("vase_type='") + 11;
                         int q = line.find("'", p);
                         string type = line.substr(p, q - p);
-                        std::cout << "cVase::Read " << line << " t= " << type << std::endl;
+                        // std::cout << "cVase::Read " << line << " t= " << type << std::endl;
 
                         if (!Add(type))
                             throw std::runtime_error("Unrecognized flower type of " + type);
@@ -311,6 +298,8 @@ namespace raven
                         p = line.find("end_idx=");
                         idx = atoi(line.substr(p + 8).c_str());
                         cFlower *end = *find(idx);
+                        // std::cout << "connecting " << start->getName()
+                        //     << " to " << end->getName() << "\n";
                         if (!start->getDestination())
                             start->Connect(end);
                         else
@@ -319,30 +308,6 @@ namespace raven
                 }
 
                 fclose(fp);
-
-#ifndef WXWIDGETS
-
-                // remove pipebends
-
-                for (auto f : myVase)
-                {
-                    if (f->getType() == cFlowerFactory::Index("PipeBend"))
-                    {
-                        for (auto s : myVase)
-                        {
-                            if (s->getDestination() == f)
-                            {
-                                s->Connect(f->getDestination());
-                            }
-                            if (s->getDestination2() == f)
-                            {
-                                s->Connect2(f->getDestination());
-                            }
-                        }
-                    }
-                }
-
-#endif // WXWIDGETS
 
                 return true;
             }

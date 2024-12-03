@@ -225,14 +225,14 @@ namespace raven
                 virtual void AppendProperties(wxPropertyGrid *pg);
 
 #endif
-                virtual void getEntryPort(int &x, int& y)
+                virtual void getEntryPort(int &x, int &y)
                 {
-                    x = myX+25;
+                    x = myX + 25;
                     y = myY;
                 }
-                virtual void locationExitPort1( int &x, int& y);
+                virtual void locationExitPort1(int &x, int &y);
 
-                virtual void locationExitPort2( int &x, int& y)
+                virtual void locationExitPort2(int &x, int &y)
                 {
                 }
                 void setSize(int w, int h)
@@ -278,12 +278,12 @@ namespace raven
                 void Read(const string &line);
 
                 /// Connect to destination
-                /// @param d 
+                /// @param d
                 /// if port1 used, use port2
                 void Connect(cFlower *d);
 
                 /// @brief connect to destination using port2
-                /// @param d 
+                /// @param d
                 void Connect2(cFlower *d)
                 {
                     myDestination2 = d; ///< Connect output to a destination flower
@@ -321,7 +321,7 @@ namespace raven
                 {
                     return myHeight;
                 }
-                virtual void draw ( wex::shapes& S );
+                virtual void draw(wex::shapes &S);
 
             protected:
                 string myName;
@@ -344,23 +344,19 @@ namespace raven
             {
             public:
                 cPipeBend();
-#ifdef WXWIDGETS
-                void Paint(wxPaintDC &dc);
-                wxPoint getEntryPort();
-                wxPoint getExitPort();
-                void getPortLocation(int &x, int &y, const cFlower &other);
-                void setLocation(wxPoint p);
-#endif
+                virtual void draw(wex::shapes &S);
+                virtual void getEntryPort(int &x, int &y);
+                virtual void locationExitPort1(int &x, int &y);
             };
             class cDecision : public cFlower
             {
-                public:
+            public:
                 cDecision();
-                virtual void getEntryPort(int &x, int& y);
-                virtual void locationExitPort1( int &x, int& y);
-                virtual void locationExitPort2( int &x, int& y);
+                virtual void getEntryPort(int &x, int &y);
+                virtual void locationExitPort1(int &x, int &y);
+                virtual void locationExitPort2(int &x, int &y);
 
-                virtual void draw ( wex::shapes& S );
+                virtual void draw(wex::shapes &S);
             };
 
         }

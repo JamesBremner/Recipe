@@ -25,7 +25,7 @@ private:
         const cxy &exit,
         const cxy &entry);
 
-    void startRun();
+    void runRecipe();
 
     void ConstructFlower();
     void SelectFlower();

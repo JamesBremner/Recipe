@@ -652,15 +652,29 @@ namespace raven
                 }
             }
             cPipeBend::cPipeBend()
+            :  cFlower()
             {
                 myTypeName = "PipeBend";
-                setName();
-                // myWidth = 5;
+                myType = cFlowerFactory::Index(myTypeName);
+                myName = "PB" + std::to_string(myIndex);
+                myWidth = 5;
+            }
+            void cPipeBend::getEntryPort(int &x, int &y)
+            {
+                x = myX;
+                y = myY;
+            }
+            void cPipeBend::locationExitPort1(int &x, int &y)
+            {
+                x = myX;
+                y = myY;
             }
             cDecision::cDecision()
+            : cFlower()
             {
                 myTypeName = "Decision";
-                myName = "Decision";
+                myType = cFlowerFactory::Index(myTypeName);
+                myName = "Decision" +std::to_string(myIndex);
                 myWidth = 200;
                 myHeight = 50;
             }
@@ -680,43 +694,9 @@ namespace raven
                 y = myY + 25;
             }
 
-
 /**  Draw pipebend -  a small cirle
  */
 #ifdef WXWIDGETS
-            void cPipeBend::Paint(wxPaintDC &dc)
-            {
-                int r = 3;
-                dc.DrawCircle(myX + r, myY + r, r);
-            }
-
-            wxPoint cPipeBend::getEntryPort()
-            {
-                wxPoint p(myX, myY);
-                return p;
-            }
-            wxPoint cPipeBend::getExitPort()
-            {
-                wxPoint p(myX, myY);
-                return p;
-            }
-            void cPipeBend::getPortLocation(int &x, int &y, const cFlower &other)
-            {
-                x = myX;
-                y = myY;
-            }
-            void cPipeBend::setLocation(wxPoint p)
-            {
-                myX = p.x;
-                myY = p.y;
-            }
-            wxPoint cVessel::getExitPort()
-            {
-                wxPoint p(myX, myY);
-                p.x += 100;
-                p.y += 25;
-                return p;
-            }
 
             /**
 

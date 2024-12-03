@@ -14,7 +14,7 @@
 cRecipeGUI::cRecipeGUI()
     : fm(wex::maker::make())
 {
-    fm.move({50, 50, 1000, 500});
+    fm.move({50, 50, 800, 800});
     fm.text("Recipe");
 
     menus();
@@ -92,7 +92,7 @@ void cRecipeGUI::menus()
         "Run",
         [&](const std::string &title)
         {
-            startRun();
+            runRecipe();
         });
     mb.append("Mode", *myModeMenu);
 }
@@ -219,14 +219,20 @@ void cRecipeGUI::draw(wex::shapes &S)
         {
             flower->locationExitPort1(xep, yep);
             dstFlower->getEntryPort(xdst, ydst);
-            drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
+            if (dstFlower->getType() == raven::sim::gui::cFlowerFactory::Index("PipeBend"))
+                S.line(cxy(xep, yep), cxy(xdst, ydst));
+            else
+                drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
         }
         dstFlower = flower->getDestination2();
         if (dstFlower)
         {
             flower->locationExitPort2(xep, yep);
             dstFlower->getEntryPort(xdst, ydst);
-            drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
+            if (dstFlower->getType() == raven::sim::gui::cFlowerFactory::Index("PipeBend"))
+                S.line(cxy(xep, yep), cxy(xdst, ydst));
+            else
+                drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
         }
     }
 }
@@ -265,13 +271,30 @@ void cRecipeGUI::drawArrow(
 
 void cRecipeGUI::ConstructFlower()
 {
+    // Recipe only uses a subset of the VASE flower types
+    // The only sources and sinks are fixed
+    const std::vector<std::string> allowed_types{"Decision", "PipeBend"};
     static wex::sMouse ms;
     ms = fm.getMouseStatus();
     // std::cout << "mouse at " << ms.x << " " << ms.y << "\n";
-    if (!myVase.Add("Decision"))
-        return;
-    myVase.getSelected()->setLocationTopLeft(ms.x, ms.y);
-    fm.update();
+    wex::menu m(fm);
+    for (auto flower : myFactory.dictionary())
+    {
+        auto it = std::find(
+            allowed_types.begin(), allowed_types.end(), flower.myName);
+        if (it == allowed_types.end())
+            continue;
+        m.append(flower.myName,
+                 [&](const std::string &title)
+                 {
+                     if (!myVase.Add(title))
+                         return;
+                     myVase.getSelected()->setLocationTopLeft(ms.x, ms.y);
+                     fm.update();
+                 });
+    }
+
+    m.popup(ms.x, ms.y);
 }
 
 void cRecipeGUI::SelectFlower()
@@ -305,7 +328,7 @@ void cRecipeGUI::config()
             ib.value(prm.second.name).c_str());
     }
 }
-void cRecipeGUI::startRun()
+void cRecipeGUI::runRecipe()
 {
     myVase.setMode(raven::sim::gui::cVase::e_mode::run);
     auto *f = myVase.find("Start");
@@ -326,14 +349,20 @@ void cRecipeGUI::startRun()
     {
         myVase.setSelected(f);
         fm.update();
+
+        // have we reached a final destination?
         if (f->getName() == "Failed" ||
             f->getName() == "Success")
             break;
+
+        // prompt user for decision
         wex::msgbox mb(
             fm,
             f->getName(),
             "Decision",
             MB_YESNO);
+
+        // exit decision box according to user's choice
         switch (mb.myReturn)
         {
         case IDYES:
@@ -342,6 +371,15 @@ void cRecipeGUI::startRun()
         case IDNO:
             f = f->getDestination();
             break;
+        }
+
+        // travel along pipebends
+        while (true)
+        {
+            if (f->getType() != raven::sim::gui::cFlowerFactory::Index("PipeBend"))
+                break;
+            else
+                f = f->getDestination();
         }
     }
 }
@@ -357,6 +395,11 @@ namespace raven
                 S.rectangle({getLocationX(), getLocationY(), 50, 50});
                 S.text(getName(),
                        {getLocationX() + 10, getLocationY() + 25});
+            }
+
+            void cPipeBend::draw(wex::shapes &S)
+            {
+                S.rectangle({getLocationX(), getLocationY(), 5, 5});
             }
 
             void cDecision::draw(wex::shapes &S)
