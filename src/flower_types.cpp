@@ -118,36 +118,4 @@ cQueue::cQueue()
     setName();
 }
 
-#ifdef WXWIDGETS
-/**
-
-  Draw pump - a circle of diameter mySize
-
-*/
-void cPump::Paint( wxPaintDC& dc )
-{
-	int r = myWidth/2;
-	dc.DrawCircle( myX, myY, r );
-}
-
-void cFunnel::Paint( wxPaintDC& dc )
-{
-	dc.DrawRectangle( myX, myY, 2*myWidth, myWidth );
-}
-wxPoint cFunnel::getExitPort()
-{
-	wxPoint p( myX, myY );
-	p.x += 100;
-	p.y += 20;
-	return p;
-}
-wxPoint cFunnel::getExitPort2()
-{
-	wxPoint p( myX, myY );
-	p.x += 100;
-	p.y += 30;
-	return p;
-}
-#endif
-
 }}}

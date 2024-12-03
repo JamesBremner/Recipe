@@ -12,9 +12,7 @@ class cPump : public cFlower
 {
 public:
     cPump();
-#ifdef WXWIDGETS
-    void Paint( wxPaintDC& dc );
-#endif
+
 };
 class cVessel : public cFlower
 {
@@ -25,11 +23,6 @@ class cFunnel : public cFlower
 {
 public:
     cFunnel();
-#ifdef WXWIDGETS
-    void Paint( wxPaintDC& dc );
-    wxPoint getExitPort();
-    wxPoint getExitPort2();
-#endif
 };
 class cSource : public cFlower
 {

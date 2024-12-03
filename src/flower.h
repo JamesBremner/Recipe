@@ -207,24 +207,6 @@ namespace raven
                 cFlower();
                 virtual ~cFlower() {}
 
-#ifdef WXWIDGETS
-                virtual void Paint(wxPaintDC &dc);
-                void Set(wxPaintDC &dc);
-                void PaintPipe(wxPaintDC &dc);
-                void DrawText(wxPaintDC &dc);
-                void PaintResizeHandles(wxPaintDC &dc);
-                virtual void Configure(wxWindow *parent);
-                int HandleIsUnder(const wxPoint &p);
-                void getHandles(std::vector<wxRect> &vhandle);
-                void DragHandle(int handle, wxPoint p);
-                void getLocation(wxPoint &p)
-                {
-                    p.x = myX;
-                    p.y = myY;
-                }
-                virtual void AppendProperties(wxPropertyGrid *pg);
-
-#endif
                 virtual void getEntryPort(int &x, int &y)
                 {
                     x = myX + 25;

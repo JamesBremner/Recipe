@@ -67,75 +67,6 @@ namespace raven
                          mySimTime);
             }
 
-
-
-/**  Select flower under location
-
-  @param[in] p location
-
-*/
-#ifdef WXWIDGETS
-
-            void cVase::Paint(wxPaintDC &dc)
-            {
-                // loop over flowers
-                for (cFlower *flower : myVase)
-                {
-
-                    // tell the flower if it is selected
-                    // so that it can paint itself highlighted
-                    if (mySelected == flower)
-                    {
-                        flower->Select();
-                    }
-
-                    // draw the flower
-                    flower->Set(dc);
-                    flower->Paint(dc);
-                    flower->PaintPipe(dc);
-                    flower->DrawText(dc);
-
-                    if (mySelected == flower)
-                    {
-                        flower->PaintResizeHandles(dc);
-                    }
-
-                    flower->Deselect();
-                }
-            }
-
-            /**
-
-              Popup a configuration dialog for selected flower
-
-              @param[in] parent window
-
-            */
-            void raven::sim::gui::cVase::Configure(wxWindow *parent)
-            {
-                if (mySelected)
-                    mySelected->Configure(parent);
-            }
-/**  Find flower under location
-
-  @param[in] p location
-
-  @return pointer to flower under location, or NULL if none
-
-*/
-// cFlower * cVase::find( const wxPoint& p )
-// {
-//     // loop over flowers
-//     for( auto flower : myVase )
-//     {
-//         if( flower->IsUnder( p ) )
-//         {
-//             return flower;
-//         }
-//     }
-//     return NULL;
-// }
-#endif
             /**
 
               Find flower by index
@@ -213,9 +144,9 @@ namespace raven
             {
                 if (!AllNamesUnique())
                 {
-#ifdef WXWIDGETS
-                    wxMessageBox("Not all flowers have unique names");
-#endif
+// #ifdef WXWIDGETS
+//                     wxMessageBox("Not all flowers have unique names");
+// #endif
                     return false;
                 }
 
