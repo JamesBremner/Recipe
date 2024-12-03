@@ -140,19 +140,17 @@ namespace raven
              http://www.graphviz.org/content/dot-language
 
             */
-            bool cVase::Write(const std::string &filename)
+            void cVase::Write(const std::string &filename)
             {
                 if (!AllNamesUnique())
-                {
-// #ifdef WXWIDGETS
-//                     wxMessageBox("Not all flowers have unique names");
-// #endif
-                    return false;
-                }
+                    throw std::runtime_error(
+                        "Duplicate flower names");
 
                 FILE *fp = fopen(filename.c_str(), "w");
                 if (!fp)
-                    return false;
+                    throw std::runtime_error(
+                        "Cannot open " + filename );
+
                 fprintf(fp, "digraph V {\n");
                 for (cFlower *flower : myVase)
                 {
@@ -164,7 +162,7 @@ namespace raven
                 }
                 fprintf(fp, "}\n");
                 fclose(fp);
-                return true;
+                return;
             }
             /**
 

@@ -58,7 +58,7 @@ public:
     bool	Add(  const std::string& flower_type_name );
     bool    Add( int flower_type_index );
     bool	Read( const std::string& filename );
-    bool	Write( const std::string& filename );
+    void	Write( const std::string& filename );
 
     void    DBWrite();
 

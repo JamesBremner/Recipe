@@ -77,7 +77,14 @@ void cRecipeGUI::menus()
             auto fn = fb.save();
             if (fn.empty())
                 return;
-            myVase.Write(fn);
+            try
+            {
+                myVase.Write(fn);
+            }
+            catch (std::runtime_error &e)
+            {
+                wex::msgbox(e.what());
+            }
         });
     mb.append("File", *myFileMenu);
 
