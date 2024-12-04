@@ -407,7 +407,7 @@ namespace raven
                 int y = getLocationY();
                 S.rectangle({x, y, 200, 50});
                 S.text(getName(),
-                       {x + 30, y + 15});
+                       {x + 30, y + 5, 170, 40 });
                 int xp, yp;
                 locationExitPort1(xp, yp);
                 S.text("NO", {xp + 3, yp});
