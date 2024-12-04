@@ -130,8 +130,6 @@ void cRecipeGUI::registerEventHandlers()
     fm.events().mouseMove(
         [&](wex::sMouse &m)
         {
-            // if (!m.left)
-            //     return;
             if (!m.shift)
                 return;
             if (!myVase.IsSelected())

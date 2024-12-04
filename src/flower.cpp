@@ -93,6 +93,9 @@ namespace raven
             */
             void cFlower::setLocationCenter(int x, int y)
             {
+                static int gridInc = 5;
+                x = ( x * gridInc ) /gridInc;
+                y = ( y * gridInc ) /gridInc;
                 myX = x - myWidth / 2;
                 if (myHeight < 0)
                     myY = y - myWidth / 2;
