@@ -6,7 +6,7 @@
 #include <cstdarg>
 #include "raven_sqlite.h"
 #include "cVase.h"
-#include "cQuality.h"
+
 
 namespace raven
 {

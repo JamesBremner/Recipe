@@ -28,7 +28,6 @@ OBJ_recipe = \
 	$(ODIR)/cRecipeGUI.o \
 	$(ODIR)/cVase.o \
 	$(ODIR)/flower.o \
-	$(ODIR)/cQuality.o \
 	$(ODIR)/raven_sqlite.o \
 	$(ODIR)/sqlite3.o \
 	$(ODIR)/cxy.o \
