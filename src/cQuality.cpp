@@ -44,16 +44,7 @@ int cQuality::getIndex( const std::string& name )
 {
     auto it = myNameMap.find( name );
     if( it == myNameMap.end() )
-    {
-        #ifdef tern_vase
-        std::stringstream msg;
-        msg << "ERROR: Cannot find quality |" << name << "|\n"
-            "Try adding it to list of qualities in gui menu option Simulate | Options";
-        tern::theSimulationEngine.HandleFatalError( msg.str() );
-        #else
         return -1;
-        #endif
-    }
     return it->second;
 }
 }}}

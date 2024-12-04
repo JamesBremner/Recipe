@@ -412,13 +412,5 @@ private:
 
 };
 
-
-extern cTERN theSimulationEngine;
-
-}
-namespace stats {
-
-            // statistics accumulator
-}
 }
 }
