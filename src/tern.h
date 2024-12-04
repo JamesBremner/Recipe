@@ -5,7 +5,6 @@
 #include <map>
 #include <string>
 
-#include "terntime.h"
 #include "cQuality.h"
 
 namespace raven {
