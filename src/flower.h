@@ -159,6 +159,11 @@ namespace raven
                 static int TypeCount();
                 static cFlowerDict &dictionary();
 
+                /// @brief true if user is allowed to construct flower type
+                /// @param type_name 
+                /// @return 
+                static bool isAllowed( const std::string& type_name );
+
             protected:
                 static cFlowerDict *myFlowerDict;
 

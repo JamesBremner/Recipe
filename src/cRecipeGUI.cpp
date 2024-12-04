@@ -273,27 +273,21 @@ void cRecipeGUI::drawArrow(
 
 void cRecipeGUI::ConstructFlower()
 {
-    // Recipe only uses a subset of the VASE flower types
-    // The only sources and sinks are fixed
-    const std::vector<std::string> allowed_types{"Decision", "PipeBend"};
     static wex::sMouse ms;
     ms = fm.getMouseStatus();
     // std::cout << "mouse at " << ms.x << " " << ms.y << "\n";
     wex::menu m(fm);
     for (auto flower : myFactory.dictionary())
     {
-        auto it = std::find(
-            allowed_types.begin(), allowed_types.end(), flower.myName);
-        if (it == allowed_types.end())
-            continue;
-        m.append(flower.myName,
-                 [&](const std::string &title)
-                 {
-                     if (!myVase.Add(title))
-                         return;
-                     myVase.getSelected()->setLocationTopLeft(ms.x, ms.y);
-                     fm.update();
-                 });
+        if (raven::recipe::cFlowerFactory::isAllowed(flower.myName))
+            m.append(flower.myName,
+                     [&](const std::string &title)
+                     {
+                         if (!myVase.Add(title))
+                             return;
+                         myVase.getSelected()->setLocationTopLeft(ms.x, ms.y);
+                         fm.update();
+                     });
     }
 
     m.popup(ms.x, ms.y);
