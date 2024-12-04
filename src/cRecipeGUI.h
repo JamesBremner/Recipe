@@ -8,9 +8,9 @@ private:
     wex::menu *myFileMenu;
     wex::menu *myModeMenu;
 
-    raven::sim::gui::cFlowerFactory myFactory;
+    raven::recipe::cFlowerFactory myFactory;
 
-    raven::sim::gui::cVase myVase;
+    raven::recipe::cVase myVase;
 
     void menus();
     void registerEventHandlers();

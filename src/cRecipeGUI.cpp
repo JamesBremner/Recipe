@@ -93,7 +93,7 @@ void cRecipeGUI::menus()
         "Design",
         [&](const std::string &title)
         {
-            myVase.setMode(raven::sim::gui::cVase::e_mode::design);
+            myVase.setMode(raven::recipe::cVase::e_mode::design);
         });
     myModeMenu->append(
         "Run",
@@ -201,7 +201,7 @@ void cRecipeGUI::rename()
 void cRecipeGUI::draw(wex::shapes &S)
 {
     S.textHeight(12);
-    for (raven::sim::gui::cFlower *flower : myVase)
+    for (raven::recipe::cFlower *flower : myVase)
     {
         if (flower->isSelected())
             S.color(0x0000FF);
@@ -218,7 +218,7 @@ void cRecipeGUI::draw(wex::shapes &S)
         {
             flower->locationExitPort1(xep, yep);
             dstFlower->getEntryPort(xdst, ydst);
-            if (dstFlower->getType() == raven::sim::gui::cFlowerFactory::Index("PipeBend"))
+            if (dstFlower->getType() == raven::recipe::cFlowerFactory::Index("PipeBend"))
                 S.line(cxy(xep, yep), cxy(xdst, ydst));
             else
                 drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
@@ -228,7 +228,7 @@ void cRecipeGUI::draw(wex::shapes &S)
         {
             flower->locationExitPort2(xep, yep);
             dstFlower->getEntryPort(xdst, ydst);
-            if (dstFlower->getType() == raven::sim::gui::cFlowerFactory::Index("PipeBend"))
+            if (dstFlower->getType() == raven::recipe::cFlowerFactory::Index("PipeBend"))
                 S.line(cxy(xep, yep), cxy(xdst, ydst));
             else
                 drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
@@ -329,19 +329,19 @@ void cRecipeGUI::config()
 }
 void cRecipeGUI::runRecipe()
 {
-    myVase.setMode(raven::sim::gui::cVase::e_mode::run);
+    myVase.setMode(raven::recipe::cVase::e_mode::run);
     auto *f = myVase.find("Start");
     if (!f)
     {
         wex::msgbox("Start missing");
-        myVase.setMode(raven::sim::gui::cVase::e_mode::design);
+        myVase.setMode(raven::recipe::cVase::e_mode::design);
         return;
     }
     f = f->getDestination();
     if (!f)
     {
         wex::msgbox("Start not connected to anything");
-        myVase.setMode(raven::sim::gui::cVase::e_mode::design);
+        myVase.setMode(raven::recipe::cVase::e_mode::design);
         return;
     }
     while (true)
@@ -375,7 +375,7 @@ void cRecipeGUI::runRecipe()
         // travel along pipebends
         while (true)
         {
-            if (f->getType() != raven::sim::gui::cFlowerFactory::Index("PipeBend"))
+            if (f->getType() != raven::recipe::cFlowerFactory::Index("PipeBend"))
                 break;
             else
                 f = f->getDestination();
@@ -384,10 +384,10 @@ void cRecipeGUI::runRecipe()
 }
 namespace raven
 {
-    namespace sim
+    namespace recipe
     {
-        namespace gui
-        {
+        // namespace gui
+        //{
 
             void cFlower::draw(wex::shapes &S)
             {
@@ -414,7 +414,7 @@ namespace raven
                 locationExitPort2(xp, yp);
                 S.text("YES", {xp - 20, yp});
             }
-        }
+        // }
     }
 }
 

@@ -6,10 +6,10 @@
 
 namespace raven
 {
-    namespace sim
+    namespace recipe
     {
-        namespace gui
-        {
+        // namespace gui
+        // {
 
             /*
 
@@ -359,7 +359,7 @@ namespace raven
                 AddParam("Volume", "Volume of each arrival", 1);
 
                 std::vector<string> vQualityNames;
-                // raven::sim::tern::cQuality::getNames( vQualityNames );
+                // raven::recipe::tern::cQuality::getNames( vQualityNames );
                 // for ( auto& q : vQualityNames )
                 // {
                 //     if( ! q.empty() )
@@ -419,4 +419,4 @@ namespace raven
             }
         }
     }
-}
+//}
