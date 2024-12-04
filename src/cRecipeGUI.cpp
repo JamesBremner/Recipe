@@ -162,12 +162,15 @@ void cRecipeGUI::onRightClick()
     // clicked on selected flower
 
     wex::menu m(fm);
-    m.append("Edit Question",
-             [&](const std::string &title)
-             {
-                 rename();
-                 fm.update();
-             });
+
+    if (clickedflower->getTypeName() != "PipeBend")
+        m.append("Edit Question",
+                 [&](const std::string &title)
+                 {
+                     rename();
+                     fm.update();
+                 });
+
     m.append("Delete selected",
              [&](const std::string &title)
              {
@@ -389,31 +392,31 @@ namespace raven
         // namespace gui
         //{
 
-            void cFlower::draw(wex::shapes &S)
-            {
-                S.rectangle({getLocationX(), getLocationY(), 50, 50});
-                S.text(getName(),
-                       {getLocationX() + 10, getLocationY() + 25});
-            }
+        void cFlower::draw(wex::shapes &S)
+        {
+            S.rectangle({getLocationX(), getLocationY(), 50, 50});
+            S.text(getName(),
+                   {getLocationX() + 10, getLocationY() + 25});
+        }
 
-            void cPipeBend::draw(wex::shapes &S)
-            {
-                S.rectangle({getLocationX(), getLocationY(), 5, 5});
-            }
+        void cPipeBend::draw(wex::shapes &S)
+        {
+            S.rectangle({getLocationX(), getLocationY(), 5, 5});
+        }
 
-            void cDecision::draw(wex::shapes &S)
-            {
-                int x = getLocationX();
-                int y = getLocationY();
-                S.rectangle({x, y, 200, 50});
-                S.text(getName(),
-                       {x + 30, y + 5, 170, 40 });
-                int xp, yp;
-                locationExitPort1(xp, yp);
-                S.text("NO", {xp + 3, yp});
-                locationExitPort2(xp, yp);
-                S.text("YES", {xp - 20, yp});
-            }
+        void cDecision::draw(wex::shapes &S)
+        {
+            int x = getLocationX();
+            int y = getLocationY();
+            S.rectangle({x, y, 200, 50});
+            S.text(getName(),
+                   {x + 30, y + 5, 170, 40});
+            int xp, yp;
+            locationExitPort1(xp, yp);
+            S.text("NO", {xp + 3, yp});
+            locationExitPort2(xp, yp);
+            S.text("YES", {xp - 20, yp});
+        }
         // }
     }
 }
