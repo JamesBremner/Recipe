@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 #include "flower.h"
-#include "flower_types.h"
 
 namespace raven
 {
@@ -94,8 +93,8 @@ namespace raven
             void cFlower::setLocationCenter(int x, int y)
             {
                 static int gridInc = 5;
-                x = ( x * gridInc ) /gridInc;
-                y = ( y * gridInc ) /gridInc;
+                x = (x * gridInc) / gridInc;
+                y = (y * gridInc) / gridInc;
                 myX = x - myWidth / 2;
                 if (myHeight < 0)
                     myY = y - myWidth / 2;
@@ -331,36 +330,44 @@ namespace raven
                 {
                 case 1:
                     return new cFlower();
-                case 2:
-                    return new cPump();
-                case 3:
-                    return new cVessel();
-                case 4:
-                    return new cFunnel();
                 case 5:
                     return new cSource();
-                case 6:
-                    return new cSourceFlow();
                 case 7:
                     return new cSink();
-                case 8:
-                    return new cDelay();
-                case 9:
-                    return new cBusy();
-                case 10:
-                    return new cQueue();
                 case 11:
                     return new cPipeBend();
                 case 12:
                     return new cDecision();
 
                 default:
-                    // TODO:        return ConstructModelFlower( flower_type_index );
-                    return nullptr;
+                    throw std::runtime_error(
+                        "Unrecognized flower type " + std::to_string(flower_type_index));
                 }
             }
+
+            cSink::cSink()
+            {
+                myTypeName = "Sink";
+                setName();
+            }
+            cSource::cSource()
+            {
+                myTypeName = "Source";
+                setName();
+                AddParam("Steady", "1 for constant rate, 0 for exponential");
+                AddParam("Mean", "Mean time between arrivals", 1);
+                AddParam("Volume", "Volume of each arrival", 1);
+
+                std::vector<string> vQualityNames;
+                // raven::sim::tern::cQuality::getNames( vQualityNames );
+                // for ( auto& q : vQualityNames )
+                // {
+                //     if( ! q.empty() )
+                //         AddParam( q, "" );
+                // }
+            }
             cPipeBend::cPipeBend()
-            :  cFlower()
+                : cFlower()
             {
                 myTypeName = "PipeBend";
                 myType = cFlowerFactory::Index(myTypeName);
@@ -378,11 +385,11 @@ namespace raven
                 y = myY;
             }
             cDecision::cDecision()
-            : cFlower()
+                : cFlower()
             {
                 myTypeName = "Decision";
                 myType = cFlowerFactory::Index(myTypeName);
-                myName = "Decision" +std::to_string(myIndex);
+                myName = "Decision" + std::to_string(myIndex);
                 myWidth = 200;
                 myHeight = 50;
             }

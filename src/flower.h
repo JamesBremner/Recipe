@@ -322,6 +322,16 @@ namespace raven
                 int myOutputPortCount;
             };
 
+            class cSource : public cFlower
+            {
+            public:
+                cSource();
+            };
+            class cSink : public cFlower
+            {
+            public:
+                cSink();
+            };
             class cPipeBend : public cFlower
             {
             public:
