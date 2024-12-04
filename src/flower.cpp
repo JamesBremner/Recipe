@@ -265,7 +265,7 @@ namespace raven
                             myX + myWidth >= x && myY + myHeight >= y);
             }
 
-            raven::sim::cFlowerDict *cFlowerFactory::myFlowerDict;
+            cFlowerDict *cFlowerFactory::myFlowerDict;
 
             /**
 
@@ -274,7 +274,7 @@ namespace raven
             */
             cFlowerFactory::cFlowerFactory()
             {
-                myFlowerDict = new raven::sim::cFlowerDict();
+                myFlowerDict = new cFlowerDict();
             }
 
             cFlowerDict &cFlowerFactory::dictionary()
@@ -409,16 +409,14 @@ namespace raven
                 y = myY + 25;
             }
 
+            void cFlowerDict::Insert(const std::string &flower_type_name)
+            {
+                // std::cout << "Flower Dictionary Insert " << myDict.size()+1 <<" "<< flower_type_name << std::endl;
+                myDict.insert(
+                    cFlowerType(
+                        myDict.size() + 1,
+                        flower_type_name));
+            }
         }
-
-        void cFlowerDict::Insert(const std::string &flower_type_name)
-        {
-            // std::cout << "Flower Dictionary Insert " << myDict.size()+1 <<" "<< flower_type_name << std::endl;
-            myDict.insert(
-                cFlowerType(
-                    myDict.size() + 1,
-                    flower_type_name));
-        }
-
     }
 }

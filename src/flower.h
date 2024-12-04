@@ -34,111 +34,110 @@ namespace raven
 {
     namespace sim
     {
-        class cFlowerType
-        {
-        public:
-            int myIndex;
-            std::string myName;
-            cFlowerType(
-                int i,
-                const std::string &n)
-                : myIndex(i), myName(n)
-            {
-            }
-            /** Define less than operator
-            So that the set container can order the types for binary search
-            */
-            inline bool operator<(const cFlowerType &other) const
-            {
-                return myIndex < other.myIndex;
-            }
-
-            /** Define equivalence operator
-            so that equivalence reuires only that the names be the same
-            */
-            inline bool operator==(const cFlowerType &other) const
-            {
-                return myName == other.myName;
-            }
-        };
-        /** Distionary of flower types */
-        class cFlowerDict
-        {
-        public:
-            /** Construct dictionary of flower types
-             */
-            cFlowerDict()
-            {
-                // standard types
-
-                Insert("Base");
-                Insert("Pump");
-                Insert("Vessel");
-                Insert("Funnel");
-                Insert("Source");
-                Insert("SourceFlow");
-                Insert("Sink");
-                Insert("Delay");
-                Insert("Busy");
-                Insert("Queue");
-                Insert("PipeBend");
-                Insert("Decision");
-
-                // model types
-
-                // TODO: InsertModelTypes();
-            }
-
-            /** Find index of flower type name
-            @param[in] flower_type_name
-            @return index of found flower type, or -1 if not found
-            */
-            const int Find(const std::string &flower_type_name)
-            {
-                for (auto &f : myDict)
-                {
-                    if (f.myName == flower_type_name)
-                        return f.myIndex;
-                }
-                return -1;
-            }
-            typedef std::set<cFlowerType>::iterator iterator;
-            iterator begin()
-            {
-                return myDict.begin();
-            }
-            iterator end()
-            {
-                return myDict.end();
-            }
-            int Size()
-            {
-                return (int)myDict.size();
-            }
-
-        private:
-            std::set<cFlowerType> myDict;
-
-            /** Insert new flower type name into dictionary
-
-            @param[in] flower_type_name
-            */
-            void Insert(const std::string &flower_type_name);
-
-            /** Insert flower types specialized for the model
-
-            This is implemented in ModelFlowers,cpp and will
-            be different for each model simulated.  For the base
-            model this will be a NOP
-
-            */
-            void InsertModelTypes();
-        };
-
-        class cFlowerDict;
-
         namespace gui
         {
+            class cFlowerType
+            {
+            public:
+                int myIndex;
+                std::string myName;
+                cFlowerType(
+                    int i,
+                    const std::string &n)
+                    : myIndex(i), myName(n)
+                {
+                }
+                /** Define less than operator
+                So that the set container can order the types for binary search
+                */
+                inline bool operator<(const cFlowerType &other) const
+                {
+                    return myIndex < other.myIndex;
+                }
+
+                /** Define equivalence operator
+                so that equivalence reuires only that the names be the same
+                */
+                inline bool operator==(const cFlowerType &other) const
+                {
+                    return myName == other.myName;
+                }
+            };
+            /** Distionary of flower types */
+            class cFlowerDict
+            {
+            public:
+                /** Construct dictionary of flower types
+                 */
+                cFlowerDict()
+                {
+                    // standard types
+
+                    Insert("Base");
+                    Insert("Pump");
+                    Insert("Vessel");
+                    Insert("Funnel");
+                    Insert("Source");
+                    Insert("SourceFlow");
+                    Insert("Sink");
+                    Insert("Delay");
+                    Insert("Busy");
+                    Insert("Queue");
+                    Insert("PipeBend");
+                    Insert("Decision");
+
+                    // model types
+
+                    // TODO: InsertModelTypes();
+                }
+
+                /** Find index of flower type name
+                @param[in] flower_type_name
+                @return index of found flower type, or -1 if not found
+                */
+                const int Find(const std::string &flower_type_name)
+                {
+                    for (auto &f : myDict)
+                    {
+                        if (f.myName == flower_type_name)
+                            return f.myIndex;
+                    }
+                    return -1;
+                }
+                typedef std::set<cFlowerType>::iterator iterator;
+                iterator begin()
+                {
+                    return myDict.begin();
+                }
+                iterator end()
+                {
+                    return myDict.end();
+                }
+                int Size()
+                {
+                    return (int)myDict.size();
+                }
+
+            private:
+                std::set<cFlowerType> myDict;
+
+                /** Insert new flower type name into dictionary
+
+                @param[in] flower_type_name
+                */
+                void Insert(const std::string &flower_type_name);
+
+                /** Insert flower types specialized for the model
+
+                This is implemented in ModelFlowers,cpp and will
+                be different for each model simulated.  For the base
+                model this will be a NOP
+
+                */
+                void InsertModelTypes();
+            };
+
+            class cFlowerDict;
             class cFlower;
 
             /**
@@ -161,20 +160,10 @@ namespace raven
                 static cFlowerDict &dictionary();
 
             protected:
-                static raven::sim::cFlowerDict *myFlowerDict;
+                static cFlowerDict *myFlowerDict;
 
                 static cFlower *ConstructModelFlower(int flower_type_index);
             };
-        }
-    }
-}
-
-namespace raven
-{
-    namespace sim
-    {
-        namespace gui
-        {
 
             /**
 
