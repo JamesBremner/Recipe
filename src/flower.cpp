@@ -415,8 +415,8 @@ namespace raven
         }
         void cDecision::locationExitPort2(int &x, int &y)
         {
-            x = myX + 200;
-            y = myY + 25;
+            x = 200;
+            y = 25;
         }
 
         void cFlowerDict::Insert(const std::string &flower_type_name)

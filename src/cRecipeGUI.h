@@ -1,3 +1,31 @@
+class cPanZoom
+{
+public:
+    int myXoff;
+    int myYoff;
+    int myZoom;
+
+    cPanZoom()
+        : myXoff(0), myYoff(0), myZoom()
+    {
+    }
+    void operator()(int &x, int &y) const;
+    void operator()(cxy& xy) const;
+
+    void inc()
+    {
+        myZoom++;
+        if(myZoom > 3 )
+            myZoom = 3;
+    }
+    void dec()
+    {
+        myZoom--;
+        if(myZoom < -3 )
+            myZoom = -3;
+    }
+};
+
 /// @brief User interface for the recipe application
 class cRecipeGUI
 {
@@ -5,7 +33,6 @@ public:
     cRecipeGUI();
 
 private:
-
     // windex widgets
     wex::gui &fm;
     wex::menu *myFileMenu;
@@ -16,6 +43,8 @@ private:
 
     // flower container
     raven::recipe::cVase myVase;
+
+    cPanZoom myPanZoom;
 
     /// @brief construct menues along top of app window
     void menus();
@@ -31,7 +60,7 @@ private:
 
     /// @brief flower configuration menu
     wex::menu menuConfig(
-        raven::recipe::cFlower* clickedFlower);
+        raven::recipe::cFlower *clickedFlower);
 
     /// @brief save recipe to a file
     void save();
