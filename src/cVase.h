@@ -116,8 +116,9 @@ public:
     void setPlotPoints( int n ) { myPlotPoints = n; }
     int getPlotPoints()         { return myPlotPoints; }
 
-    cFlower*  find( const std::string& name );
+    cFlower* find( const std::string& name );
     cFlower* find( int x, int y );
+    cFlower* findType( int typeIndex );
 
 private:
     std::vector < cFlower* > myVase;

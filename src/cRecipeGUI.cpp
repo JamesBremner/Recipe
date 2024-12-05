@@ -73,18 +73,7 @@ void cRecipeGUI::menus()
         "Save",
         [&](const std::string &title)
         {
-            wex::filebox fb(fm);
-            auto fn = fb.save();
-            if (fn.empty())
-                return;
-            try
-            {
-                myVase.Write(fn);
-            }
-            catch (std::runtime_error &e)
-            {
-                wex::msgbox(e.what());
-            }
+            save();
         });
     mb.append("File", *myFileMenu);
 
@@ -161,9 +150,26 @@ void cRecipeGUI::onRightClick()
 
     // clicked on selected flower
 
+    menuConfig(clickedflower).popup(ms.x, ms.y);
+
+    return;
+}
+
+wex::menu cRecipeGUI::menuConfig(
+    raven::recipe::cFlower *clickedflower)
+{
     wex::menu m(fm);
 
-    if (clickedflower->getTypeName() != "PipeBend")
+    if (clickedflower->getType() == myFactory.Index("Source"))
+        m.append("Edit Title",
+                 [&](const std::string &title)
+                 {
+                     rename();
+                     fm.update();
+                 });
+    else if (clickedflower->getType() == myFactory.Index("PipeBend"))
+        ;
+    else
         m.append("Edit Question",
                  [&](const std::string &title)
                  {
@@ -184,10 +190,34 @@ void cRecipeGUI::onRightClick()
                  fm.update();
              });
 
-    m.popup(ms.x, ms.y);
-    return;
+    return m;
 }
+void cRecipeGUI::save()
+{
+    wex::filebox fb(fm);
 
+    // default to recipe title TID12
+    auto *f = myVase.findType(myFactory.Index("Source"));
+    if (f)
+    {
+        auto title = f->getName();
+        if (title.length() && (title != "Start"))
+            fb.initFile(title + ".recipe");
+    }
+
+    auto fn = fb.save();
+
+    if (fn.empty())
+        return;
+    try
+    {
+        myVase.Write(fn);
+    }
+    catch (std::runtime_error &e)
+    {
+        wex::msgbox(e.what());
+    }
+}
 void cRecipeGUI::rename()
 {
     // prompt user to change the name of the selected flower
@@ -221,7 +251,7 @@ void cRecipeGUI::draw(wex::shapes &S)
         {
             flower->locationExitPort1(xep, yep);
             dstFlower->getEntryPort(xdst, ydst);
-            if (dstFlower->getType() == raven::recipe::cFlowerFactory::Index("PipeBend"))
+            if (dstFlower->getType() == myFactory.Index("PipeBend"))
                 S.line(cxy(xep, yep), cxy(xdst, ydst));
             else
                 drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
@@ -231,7 +261,7 @@ void cRecipeGUI::draw(wex::shapes &S)
         {
             flower->locationExitPort2(xep, yep);
             dstFlower->getEntryPort(xdst, ydst);
-            if (dstFlower->getType() == raven::recipe::cFlowerFactory::Index("PipeBend"))
+            if (dstFlower->getType() == myFactory.Index("PipeBend"))
                 S.line(cxy(xep, yep), cxy(xdst, ydst));
             else
                 drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
@@ -372,7 +402,7 @@ void cRecipeGUI::runRecipe()
         // travel along pipebends
         while (true)
         {
-            if (f->getType() != raven::recipe::cFlowerFactory::Index("PipeBend"))
+            if (f->getType() != myFactory.Index("PipeBend"))
                 break;
             else
                 f = f->getDestination();

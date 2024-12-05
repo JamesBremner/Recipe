@@ -29,6 +29,13 @@ private:
     /// @brief handle a right mouse button click
     void onRightClick();
 
+    /// @brief flower configuration menu
+    wex::menu menuConfig(
+        raven::recipe::cFlower* clickedFlower);
+
+    /// @brief save recipe to a file
+    void save();
+
     /// @brief edit the question in a decision
     void rename();
 

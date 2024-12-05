@@ -63,7 +63,7 @@ namespace raven
                     return myName == other.myName;
                 }
             };
-            /** Distionary of flower types */
+            /** Dictionary of flower types */
             class cFlowerDict
             {
             public:
@@ -95,7 +95,7 @@ namespace raven
                 @param[in] flower_type_name
                 @return index of found flower type, or -1 if not found
                 */
-                const int Find(const std::string &flower_type_name)
+                const int Find(const std::string &flower_type_name) const
                 {
                     for (auto &f : myDict)
                     {

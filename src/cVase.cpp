@@ -113,6 +113,19 @@ namespace raven
                 }
                 return nullptr;
             }
+            cFlower *cVase::findType(int typeIndex )
+            {
+                // loop over flowers
+                for (auto flower : myVase)
+                {
+                    if (flower->getType() == typeIndex )
+                    {
+                        return flower;
+                    }
+                }
+                return nullptr;
+            }
+
             void cVase::setSelected(cFlower *f)
             {
                 if (mySelected)
