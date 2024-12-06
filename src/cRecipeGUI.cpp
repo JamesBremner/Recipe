@@ -280,6 +280,32 @@ void cRecipeGUI::rename()
     selectedflower->setName(ib.value("Name"));
 }
 
+cxy cRecipeGUI::locatePort(
+    int port,
+    raven::recipe::cFlower *flower)
+{
+
+    cxy offset;
+    switch (port)
+    {
+    case 0:
+        flower->entryPortOffset(offset);
+        break;
+    case 1:
+        flower->exitPort1Offset(offset);
+        break;
+    case 2:
+        flower->exitPort2Offset(offset);
+        break;
+    }
+    cxy ret(
+        flower->getLocationX(),
+        flower->getLocationY());
+    ret = ret + offset;
+    myPanZoom(ret);
+    return ret;
+}
+
 void cRecipeGUI::draw(wex::shapes &S)
 {
     S.textHeight(12);
@@ -298,22 +324,32 @@ void cRecipeGUI::draw(wex::shapes &S)
         auto *dstFlower = flower->getDestination();
         if (dstFlower)
         {
-            flower->locationExitPort1(xep, yep);
-            dstFlower->getEntryPort(xdst, ydst);
-            if (dstFlower->getType() == myFactory.Index("PipeBend"))
-                S.line(cxy(xep, yep), cxy(xdst, ydst));
-            else
-                drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
+            // flower->exitPort1Offset(xep, yep);
+            // myPanZoom(xep, yep);
+            // dstFlower->entryPortOffset(xdst, ydst);
+            // myPanZoom(xdst, ydst);
+            // if (dstFlower->getType() == myFactory.Index("PipeBend"))
+            //     S.line(cxy(xep, yep), cxy(xdst, ydst));
+            // else
+            drawArrow(
+                S,
+                locatePort(1, flower),
+                locatePort(0, dstFlower));
         }
         dstFlower = flower->getDestination2();
         if (dstFlower)
         {
-            flower->locationExitPort2(xep, yep);
-            dstFlower->getEntryPort(xdst, ydst);
-            if (dstFlower->getType() == myFactory.Index("PipeBend"))
-                S.line(cxy(xep, yep), cxy(xdst, ydst));
-            else
-                drawArrow(S, cxy(xep, yep), cxy(xdst, ydst));
+            // flower->exitPort2Offset(xep, yep);
+            // myPanZoom(xep, yep);
+            // dstFlower->entryPortOffset(xdst, ydst);
+            // myPanZoom(xdst, ydst);
+            // if (dstFlower->getType() == myFactory.Index("PipeBend"))
+            //     S.line(cxy(xep, yep), cxy(xdst, ydst));
+            // else
+            drawArrow(
+                S,
+                locatePort(2, flower),
+                locatePort(0, dstFlower));
         }
     }
 }
@@ -490,20 +526,22 @@ namespace raven
         {
             int x = getLocationX();
             int y = getLocationY();
-            pz(x, y);
+            cxy tl(x, y), ep1, ep2;
+            exitPort1Offset(ep1);
+            exitPort2Offset(ep2);
+            ep1 = ep1 + tl;
+            ep2 = ep2 + tl;
+            pz(tl);
+            pz(ep1);
+            pz(ep2);
             int w = 200;
             int h = 50;
-            pz(w,h);
-            S.rectangle({x, y, w, h});
+            pz(w, h);
+            S.rectangle({tl.x, tl.y, w, h});
             S.text(getName(),
-                   {x + 30, y + 5, 170, 40});
-            int xp, yp;
-            locationExitPort1(xp, yp);
-            pz(xp, yp);
-            S.text("NO", {xp + 3, yp});
-            locationExitPort2(xp, yp);
-            pz(xp, yp);
-            S.text("YES", {x + xp, y + yp});
+                   {tl.x + 30, tl.y + 5, w, h});
+            S.text("NO", {ep1.x, ep1.y});
+            S.text("YES", {ep2.x, ep2.y});
         }
     }
 }

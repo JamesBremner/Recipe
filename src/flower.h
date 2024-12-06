@@ -30,6 +30,7 @@ namespace wex
     class shapes;
 }
 class cPanZoom;
+class cxy;
 
 namespace raven
 {
@@ -202,14 +203,9 @@ namespace raven
             cFlower();
             virtual ~cFlower() {}
 
-            virtual void getEntryPort(int &x, int &y)
-            {
-                x = myX + 25;
-                y = myY;
-            }
-            virtual void locationExitPort1(int &x, int &y);
-
-            virtual void locationExitPort2(int &x, int &y)
+            virtual void entryPortOffset(cxy &xy);
+            virtual void exitPort1Offset(cxy &xy);
+            virtual void exitPort2Offset(cxy &xy)
             {
             }
             void setSize(int w, int h)
@@ -336,16 +332,16 @@ namespace raven
             virtual void draw(
                 wex::shapes &S,
                 const cPanZoom &pz);
-            virtual void getEntryPort(int &x, int &y);
-            virtual void locationExitPort1(int &x, int &y);
+            virtual void entryPortOffset(cxy& xy);
+            virtual void exitPort1Offset(cxy& xy);
         };
         class cDecision : public cFlower
         {
         public:
             cDecision();
-            virtual void getEntryPort(int &x, int &y);
-            virtual void locationExitPort1(int &x, int &y);
-            virtual void locationExitPort2(int &x, int &y);
+            virtual void entryPortOffset(cxy& xy);
+            virtual void exitPort1Offset(cxy& xy);
+            virtual void exitPort2Offset(cxy& xy);
 
             virtual void draw(
                 wex::shapes &S,

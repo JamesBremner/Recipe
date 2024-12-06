@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <cxy.h>
 #include "flower.h"
 
 namespace raven
@@ -64,10 +65,15 @@ namespace raven
                 lastIndex = id;
         }
 
-        void cFlower::locationExitPort1(int &x, int &y)
+        void cFlower::entryPortOffset(cxy &xy)
         {
-            x = myX + 25;
-            y = myY + 50;
+            xy.x = 25;
+            xy.y = 0;
+        }
+        void cFlower::exitPort1Offset(cxy &xy)
+        {
+            xy.x = 25;
+            xy.y = 50;
         }
 
         /**
@@ -345,7 +351,7 @@ namespace raven
                     "Unrecognized flower type " + std::to_string(flower_type_index));
             }
         }
-        bool cFlowerFactory::isAllowed( const std::string &type_name)
+        bool cFlowerFactory::isAllowed(const std::string &type_name)
         {
             const std::vector<std::string> allowed_types{"Decision", "PipeBend"};
             auto it = std::find(
@@ -384,15 +390,15 @@ namespace raven
             myName = "PB" + std::to_string(myIndex);
             myWidth = 5;
         }
-        void cPipeBend::getEntryPort(int &x, int &y)
+        void cPipeBend::entryPortOffset(cxy &xy)
         {
-            x = myX;
-            y = myY;
+            xy.x = 0;
+            xy.y = 0;
         }
-        void cPipeBend::locationExitPort1(int &x, int &y)
+        void cPipeBend::exitPort1Offset(cxy &xy)
         {
-            x = myX;
-            y = myY;
+            xy.x = 0;
+            xy.y = 0;
         }
         cDecision::cDecision()
             : cFlower()
@@ -403,20 +409,20 @@ namespace raven
             myWidth = 200;
             myHeight = 50;
         }
-        void cDecision::getEntryPort(int &x, int &y)
+        void cDecision::entryPortOffset(cxy &xy)
         {
-            x = myX + 100;
-            y = myY;
+           xy.x = 100;
+           xy.y = 0;
         }
-        void cDecision::locationExitPort1(int &x, int &y)
+        void cDecision::exitPort1Offset(cxy &xy)
         {
-            x = myX;
-            y = myY + 25;
+            xy.x = 0;
+            xy.y = 25;
         }
-        void cDecision::locationExitPort2(int &x, int &y)
+        void cDecision::exitPort2Offset(cxy &xy)
         {
-            x = 200;
-            y = 25;
+            xy.x = 200;
+            xy.y = 25;
         }
 
         void cFlowerDict::Insert(const std::string &flower_type_name)

@@ -10,18 +10,18 @@ public:
     {
     }
     void operator()(int &x, int &y) const;
-    void operator()(cxy& xy) const;
+    void operator()(cxy &xy) const;
 
     void inc()
     {
         myZoom++;
-        if(myZoom > 3 )
+        if (myZoom > 3)
             myZoom = 3;
     }
     void dec()
     {
         myZoom--;
-        if(myZoom < -3 )
+        if (myZoom < -3)
             myZoom = -3;
     }
 };
@@ -79,6 +79,14 @@ private:
         wex::shapes &S,
         const cxy &exit,
         const cxy &entry);
+
+    /// @brief get panned and zoomed location of a flower's port
+    /// @param port 
+    /// @param flower 
+    /// @return 
+    cxy locatePort(
+        int port,
+        raven::recipe::cFlower *flower);
 
     /// @brief recipe runner
     void runRecipe();
