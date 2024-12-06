@@ -51,6 +51,7 @@ private:
     wex::gui &fm;
     wex::menu *myFileMenu;
     wex::menu *myModeMenu;
+    wex::menu *myHelpMenu;
 
     // flower construction factory
     raven::recipe::cFlowerFactory myFactory;

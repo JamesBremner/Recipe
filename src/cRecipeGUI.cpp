@@ -200,6 +200,60 @@ void cRecipeGUI::menus()
             runRecipe();
         });
     mb.append("Mode", *myModeMenu);
+
+    myHelpMenu = new wex::menu(fm);
+    myHelpMenu->append(
+        "Usage",
+        [&](const std::string &title)
+        {
+            wex::msgbox(
+                "Recipe\n"
+"======\n"
+"A recipe is a decision flow chart.\n"
+"A recipe contains:\n"
+"- one source, labelled start, with no inputs and one output.\n"
+"- two sinks, labelled success and failed, with any number of inputs and no output\n"
+"- any number of decision boxes with one input and two outputs, labelled yes and no.\n\n"
+"The start, success and failure are connected by a network of design boxes  constructed by the user using a subset of the VASE code.\n\n"
+"Recipe Editor\n"
+"=============\n\n"
+"* Add a decision by right clicking on empty canvas and selecting `Decision` from drop down menu\n"
+"* Add a pipe bend by right clicking on empty canvas and selecting `PipeBend` from drop down menu\n"
+"* Move elements by left clicking on element ( source, sink, decision or pipe bend ) and moving mouse with SHIFT key pressed\n"
+"* Connect elements with straight lines left clicking on first, then right clicking on second.\n"
+"* Use pipe bends to make connections avoid other elements\n"
+"* Edit question in decision with left click, then right clicki, then select `Edit` from pop-up menu\n"
+"* Delete decision with left click, then right clicki, then select `Delete selected` from pop-up menu\n"
+"* Delete output connections from decision  with left click, then right clicki, then select `Delete connections` from pop-up menu\n"
+"* Edit title by left clicking then right clicking on source.\n"
+"* Zoom view by rotating mouse wheel\n"
+"* Pan view by by left clicking on empty canvaa and moving mouse with SHIFT key pressed\n"
+"* `File | New` replaces current recipe with initial recipe contain only a source and two sinks\n"
+"* `File | Open` replaces current recipe with saved recipe in selected file\n"
+"* `File | Save` saves current recipe to a selected file.  Filename defaults to recipe title\n"
+"* `Mode | Run` start the recipe runner\n\n"
+"Recipe Runner\n"
+"=============\n\n"
+
+"The user can opt to run the recipe by selecting menu item `Mode | Run`\n"
+
+"- The decision box on the output from start is highlighted\n"
+"- A dialog box pops up asking ''Are you ready to start''\n"
+"- Depending on the user''s answer, the next decision box is highlighted and its dialog box pops up\n"
+
+                      );
+        });
+    myHelpMenu->append(
+        "About",
+        [&](const std::string &title)
+        {
+            wex::msgbox(
+                "Recipe Manager\n\n"
+                "(c) 2024 James Bremner\n"
+                "MIT license\n\n"
+                "Produced for Lucas Santos\n"            );
+        });
+     mb.append("Help", *myHelpMenu);
 }
 
 void cRecipeGUI::registerEventHandlers()
