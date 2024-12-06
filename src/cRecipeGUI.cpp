@@ -675,7 +675,7 @@ namespace raven
             cxy tl(x, y), ep1, ep2;
             exitPort1Offset(ep1);
             exitPort2Offset(ep2);
-            cxy wh(200,50);
+            int w(200),h(50);
 
             ep1 = ep1 + tl;
             ep2 = ep2 + tl;
@@ -683,11 +683,13 @@ namespace raven
             pz(tl);
             pz(ep1);
             pz(ep2);
-            pz(wh);
+            pz.zoom(w);
+            pz.zoom(h);
+            cxy whxy(w,h);
 
-            S.rectangle(tl, wh);
+            S.rectangle(tl, whxy);
             S.textxy(getName(),
-                   cxy(tl.x + 30, tl.y + 5), wh);
+                   cxy(tl.x + 30, tl.y + 5), whxy);
             S.textxy("NO", ep1);
             S.textxy("YES", ep2);
         }
