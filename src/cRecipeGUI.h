@@ -4,9 +4,15 @@ public:
 
     cPanZoom();
 
+    void clear();
+
     void operator()(int &x, int &y) const;
     void operator()(cxy &xy) const;
     void zoom(int& s) const;
+
+    /// @brief convert view co-ords back to model co-ords
+    /// @param xy 
+    void undo(cxy &xy );
 
     void inc()
     {
@@ -22,6 +28,8 @@ public:
     void pan(const wex::sMouse &ms);
     void panStop();
     bool isPanning() const;
+
+    static bool test();
 
 private:
     cxy myOff;
@@ -105,4 +113,8 @@ private:
 
     /// @brief flower configuration menu
     void config();
+
+    /// @brief locate mouse cursor in model co-ords
+    /// @return 
+    cxy mouseInModel();
 };
