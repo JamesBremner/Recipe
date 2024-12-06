@@ -651,9 +651,9 @@ namespace raven
             int w = 50;
             pz.zoom(w);
 
-            S.rectangle({tl.x, tl.y, w, w});
-            S.text(getName(),
-                   {tl.x + 10, tl.y + 25});
+            S.rectangle(tl, cxy(w, w));
+            S.textxy(getName(),
+                   cxy(tl.x + 10, tl.y + 25));
         }
 
         void cPipeBend::draw(
@@ -663,7 +663,7 @@ namespace raven
             cxy tl(
                 getLocationX(), getLocationY());
             pz(tl);
-            S.rectangle({tl.x, tl.y, 5, 5});
+            S.rectangle(tl, cxy(5, 5));
         }
 
         void cDecision::draw(
@@ -675,22 +675,21 @@ namespace raven
             cxy tl(x, y), ep1, ep2;
             exitPort1Offset(ep1);
             exitPort2Offset(ep2);
-            int w = 200;
-            int h = 50;
+            cxy wh(200,50);
+
             ep1 = ep1 + tl;
             ep2 = ep2 + tl;
 
             pz(tl);
             pz(ep1);
             pz(ep2);
-            pz.zoom(w);
-            pz.zoom(h);
+            pz(wh);
 
-            S.rectangle({tl.x, tl.y, w, h});
-            S.text(getName(),
-                   {tl.x + 30, tl.y + 5, w, h});
-            S.text("NO", {ep1.x, ep1.y});
-            S.text("YES", {ep2.x, ep2.y});
+            S.rectangle(tl, wh);
+            S.textxy(getName(),
+                   cxy(tl.x + 30, tl.y + 5), wh);
+            S.textxy("NO", ep1);
+            S.textxy("YES", ep2);
         }
     }
 }
