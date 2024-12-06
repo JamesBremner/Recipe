@@ -19,12 +19,16 @@ public:
         zoomfactor();
     }
 
+    void pan(const wex::sMouse &ms);
+    void panStop();
+    bool isPanning() const;
+
 private:
-    int myXoff;
-    int myYoff;
+    cxy myOff;
     int myZoom;
     float myZoomFactor;
-    
+    cxy myPrevPos;
+
     void zoomfactor();
 };
 

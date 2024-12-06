@@ -130,6 +130,8 @@ namespace raven
             {
                 if (mySelected)
                     mySelected->Deselect();
+                if( ! f )
+                    return;
                 mySelected = f;
                 f->Select();
             }

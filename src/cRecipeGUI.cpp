@@ -11,10 +11,11 @@
 #include "cVase.h"
 #include "cRecipeGUI.h"
 
-    cPanZoom::cPanZoom()
-        : myXoff(0), myYoff(0), myZoom(0), myZoomFactor(1)
-    {
-    }
+cPanZoom::cPanZoom()
+    : myOff(0,0), myZoom(0), myZoomFactor(1),
+    myPrevPos(-1,-1)
+{
+}
 void cPanZoom::zoomfactor()
 {
     if (myZoom > 3)
@@ -52,8 +53,8 @@ void cPanZoom::zoomfactor()
 }
 void cPanZoom::operator()(cxy &xy) const
 {
-    xy.x = (xy.x - myXoff) * myZoomFactor;
-    xy.y = (xy.y - myYoff) * myZoomFactor;
+    xy = xy - myOff;
+    xy *= myZoomFactor;
 }
 
 void cPanZoom::operator()(int &x, int &y) const
@@ -68,6 +69,24 @@ void cPanZoom::zoom(int &s) const
 {
     s *= myZoomFactor;
 }
+void cPanZoom::pan(const wex::sMouse &ms)
+{
+    //std::cout << "pan ";
+    cxy pos(ms.x,ms.y);
+    if( myPrevPos.x >= 0 ) {
+        myOff = myOff + pos.vect(myPrevPos);
+    }
+    myPrevPos = cxy(ms.x,ms.y);
+}
+void cPanZoom::panStop()
+{
+    myPrevPos.x = -1;
+}
+bool cPanZoom::isPanning() const
+{
+    return myPrevPos.x > -1;
+}
+
 
 cRecipeGUI::cRecipeGUI()
     : fm(wex::maker::make())
@@ -175,13 +194,20 @@ void cRecipeGUI::registerEventHandlers()
         });
 
     fm.events().mouseMove(
-        [&](wex::sMouse &m)
+        [&](wex::sMouse &ms)
         {
-            if (!m.shift)
+            if (!ms.shift)
+            {
+                myPanZoom.panStop();
                 return;
-            if (!myVase.IsSelected())
-                return;
-            myVase.getSelected()->setLocationCenter(m.x, m.y);
+            }
+            auto *flower = myVase.find(ms.x, ms.y);
+            if (flower != nullptr && ( ! myPanZoom.isPanning()))
+                flower->setLocationCenter(ms.x, ms.y);
+            else {
+                myPanZoom.pan(ms);
+            }
+
             fm.update();
         });
 
@@ -192,7 +218,7 @@ void cRecipeGUI::registerEventHandlers()
                 myPanZoom.inc();
             else
                 myPanZoom.dec();
-            //std::cout << "Zoom " << myPanZoom.myZoom << " ";
+            // std::cout << "Zoom " << myPanZoom.myZoom << " ";
             fm.update();
         });
 }
@@ -430,6 +456,8 @@ void cRecipeGUI::ConstructFlower()
 
 void cRecipeGUI::SelectFlower()
 {
+    if( myPanZoom.isPanning() )
+        return;
     auto ms = fm.getMouseStatus();
     auto *flower = myVase.find(ms.x, ms.y);
     if (flower == nullptr)
@@ -523,7 +551,7 @@ namespace raven
             const cPanZoom &pz)
         {
             cxy tl(
-            getLocationX(),getLocationY());
+                getLocationX(), getLocationY());
             pz(tl);
             S.rectangle({tl.x, tl.y, 50, 50});
             S.text(getName(),
