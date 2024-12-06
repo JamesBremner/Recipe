@@ -1,29 +1,31 @@
 class cPanZoom
 {
 public:
-    int myXoff;
-    int myYoff;
-    int myZoom;
 
-    cPanZoom()
-        : myXoff(0), myYoff(0), myZoom()
-    {
-    }
+    cPanZoom();
+
     void operator()(int &x, int &y) const;
     void operator()(cxy &xy) const;
+    void zoom(int& s) const;
 
     void inc()
     {
         myZoom++;
-        if (myZoom > 3)
-            myZoom = 3;
+        zoomfactor();
     }
     void dec()
     {
         myZoom--;
-        if (myZoom < -3)
-            myZoom = -3;
+        zoomfactor();
     }
+
+private:
+    int myXoff;
+    int myYoff;
+    int myZoom;
+    float myZoomFactor;
+    
+    void zoomfactor();
 };
 
 /// @brief User interface for the recipe application
@@ -81,9 +83,9 @@ private:
         const cxy &entry);
 
     /// @brief get panned and zoomed location of a flower's port
-    /// @param port 
-    /// @param flower 
-    /// @return 
+    /// @param port
+    /// @param flower
+    /// @return
     cxy locatePort(
         int port,
         raven::recipe::cFlower *flower);

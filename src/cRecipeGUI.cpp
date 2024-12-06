@@ -11,42 +11,62 @@
 #include "cVase.h"
 #include "cRecipeGUI.h"
 
-void cPanZoom::operator()(int &x, int &y) const
+    cPanZoom::cPanZoom()
+        : myXoff(0), myYoff(0), myZoom(0), myZoomFactor(1)
+    {
+    }
+void cPanZoom::zoomfactor()
 {
-    float factor = 1.0;
+    if (myZoom > 3)
+        myZoom = 3;
+    if (myZoom < -3)
+        myZoom = -3;
+    myZoomFactor = 1.0;
     switch (myZoom)
     {
     case -3:
-        factor = 0.25;
+        myZoomFactor = 0.25;
         break;
     case -2:
-        factor = 0.5;
+        myZoomFactor = 0.5;
         break;
     case -1:
-        factor = 0.75;
+        myZoomFactor = 0.75;
         break;
     case 0:
-        factor = 1.0;
+        myZoomFactor = 1.0;
         break;
     case 1:
-        factor = 1.5;
+        myZoomFactor = 1.5;
         break;
     case 2:
-        factor = 2;
+        myZoomFactor = 2;
         break;
     case 3:
-        factor = 2.5;
+        myZoomFactor = 2.5;
         break;
     default:
-        factor = 1;
+        myZoomFactor = 1;
         break;
     }
-    x = (x - myXoff) * factor;
-    y = (y - myYoff) * factor;
 }
 void cPanZoom::operator()(cxy &xy) const
 {
-    (xy.x, xy.y);
+    xy.x = (xy.x - myXoff) * myZoomFactor;
+    xy.y = (xy.y - myYoff) * myZoomFactor;
+}
+
+void cPanZoom::operator()(int &x, int &y) const
+{
+    cxy xy(x, y);
+    (xy);
+    x = xy.x;
+    y = xy.y;
+}
+
+void cPanZoom::zoom(int &s) const
+{
+    s *= myZoomFactor;
 }
 
 cRecipeGUI::cRecipeGUI()
@@ -172,7 +192,7 @@ void cRecipeGUI::registerEventHandlers()
                 myPanZoom.inc();
             else
                 myPanZoom.dec();
-            std::cout << "Zoom " << myPanZoom.myZoom << " ";
+            //std::cout << "Zoom " << myPanZoom.myZoom << " ";
             fm.update();
         });
 }
@@ -529,14 +549,17 @@ namespace raven
             cxy tl(x, y), ep1, ep2;
             exitPort1Offset(ep1);
             exitPort2Offset(ep2);
+            int w = 200;
+            int h = 50;
             ep1 = ep1 + tl;
             ep2 = ep2 + tl;
+
             pz(tl);
             pz(ep1);
             pz(ep2);
-            int w = 200;
-            int h = 50;
-            pz(w, h);
+            pz.zoom(w);
+            pz.zoom(h);
+
             S.rectangle({tl.x, tl.y, w, h});
             S.text(getName(),
                    {tl.x + 30, tl.y + 5, w, h});
