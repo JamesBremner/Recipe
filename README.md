@@ -37,6 +37,8 @@ Here is a simple recipe example with one decision box
 * `File | Open` replaces current recipe with saved recipe in selected file
 * `File | Save` saves current recipe to a selected file.  Filename defaults to recipe title
 * `Mode | Run` start the recipe runner
+* `Help | Usage` displays how to use help
+* `Help | About` displays copyright and licence
 
 # Recipe Runner
 
