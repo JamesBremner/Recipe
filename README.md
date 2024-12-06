@@ -31,6 +31,8 @@ Here is a simple recipe example with one decision box
 * Delete decision with left click, then right clicki, then select `Delete selected` from pop-up menu
 * Delete output connections from decision  with left click, then right clicki, then select `Delete connections` from pop-up menu
 * Edit title by left clicking then right clicking on source.
+* Zoom view by rotating mouse wheel
+* Pan view by by left clicking on empty canvaa and moving mouse with SHIFT key pressed
 * `File | New` replaces current recipe with initial recipe contain only a source and two sinks
 * `File | Open` replaces current recipe with saved recipe in selected file
 * `File | Save` saves current recipe to a selected file.  Filename defaults to recipe title
