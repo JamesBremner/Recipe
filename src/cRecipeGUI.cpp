@@ -522,12 +522,12 @@ namespace raven
             wex::shapes &S,
             const cPanZoom &pz)
         {
-            int x = getLocationX();
-            int y = getLocationY();
-            pz(x, y);
-            S.rectangle({x, y, 50, 50});
+            cxy tl(
+            getLocationX(),getLocationY());
+            pz(tl);
+            S.rectangle({tl.x, tl.y, 50, 50});
             S.text(getName(),
-                   {x + 10, y + 25});
+                   {tl.x + 10, tl.y + 25});
         }
 
         void cPipeBend::draw(
