@@ -30,7 +30,6 @@ OBJ_recipe = \
 	$(ODIR)/flower.o \
 	$(ODIR)/raven_sqlite.o \
 	$(ODIR)/sqlite3.o \
-	$(ODIR)/cxy.o \
 
 ### COMPILE
 
